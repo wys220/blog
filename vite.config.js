@@ -6,7 +6,7 @@ import { resolve } from 'path';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
 export default defineConfig(config => ({
-    base: './',
+    base: '/wys220/',
     plugins: [
         // 配置需要使用的插件列表
         vue(),
