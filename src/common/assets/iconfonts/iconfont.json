@@ -1,0 +1,58 @@
+{
+  "id": "3870377",
+  "name": "ecg-icon",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "24862276",
+      "name": "全屏",
+      "font_class": "expand",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "24862277",
+      "name": "退出全屏",
+      "font_class": "contract",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "1240766",
+      "name": "更多",
+      "font_class": "gengduo",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "6141182",
+      "name": "AK-YK_方块_fill",
+      "font_class": "cube",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "7727117",
+      "name": "1加号",
+      "font_class": "jiahao",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "4315844",
+      "name": "line",
+      "font_class": "line",
+      "unicode": "e6f4",
+      "unicode_decimal": 59124
+    },
+    {
+      "icon_id": "7483115",
+      "name": "首页",
+      "font_class": "home",
+      "unicode": "e707",
+      "unicode_decimal": 59143
+    }
+  ]
+}

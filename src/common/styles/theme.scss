@@ -1,0 +1,11 @@
+// 暗色主题
+html[data-theme="dark"] {
+    --text-color: #ffffffde;
+    --bg-color: #00000080;
+}
+
+// 默认亮色主题
+:root {
+    --text-color: #333;
+    --bg-color: #ffffffe6;
+}

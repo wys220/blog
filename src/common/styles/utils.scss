@@ -1,0 +1,249 @@
+/* 加上这一句，实现平滑滚动效果 */
+html,
+body {
+    scroll-behavior: smooth;
+}
+
+// flex布局
+.flex {
+    display: flex;
+    align-items: center;
+}
+
+.flex-col {
+    @extend .flex;
+    flex-direction: column;
+}
+
+.flex-s {
+    @extend .flex;
+    justify-content: flex-start;
+}
+
+.flex-e {
+    @extend .flex;
+    justify-content: flex-end;
+}
+
+.flex-sb {
+    @extend .flex;
+    justify-content: space-between;
+}
+
+.flex-sa {
+    @extend .flex;
+    justify-content: space-around;
+}
+
+.flex-c {
+    @extend .flex;
+    justify-content: center;
+}
+
+.flex-col-s {
+    @extend .flex-col;
+    justify-content: flex-start;
+}
+
+.flex-col-e {
+    @extend .flex-col;
+    justify-content: flex-end;
+}
+
+.flex-col-sb {
+    @extend .flex-col;
+    justify-content: space-between;
+}
+
+.flex-col-sa {
+    @extend .flex-col;
+    justify-content: space-around;
+}
+
+.flex-col-c {
+    @extend .flex-col;
+    justify-content: center;
+}
+
+.f1 {
+    flex: 1;
+}
+
+.ofa {
+    overflow: auto;
+}
+
+.ofh {
+    overflow: hidden;
+}
+
+.ofs {
+    overflow: scroll;
+}
+
+.cp {
+    cursor: pointer;
+}
+
+//定位
+.pa {
+    position: absolute;
+}
+
+.pr {
+    position: relative;
+}
+
+.pf {
+    position: fixed;
+}
+
+//字体大小
+@for $i from 12 through 40 {
+    .font#{$i} {
+        font-size: #{$i}px !important;
+    }
+}
+
+.fontw {
+    font-weight: bold;
+}
+
+//对齐方式
+@each $t in left, center, right {
+    .text-#{$t} {
+        text-align: #{$t} !important;
+    }
+}
+
+//宽高
+.w100 {
+    width: 100% !important;
+}
+
+.h100 {
+    height: 100% !important;
+}
+
+.vw100 {
+    height: 100vw !important;
+}
+
+.vh100 {
+    height: 100vh !important;
+}
+
+// 边距
+@for $i from 1 through 40 {
+    .margin#{$i} {
+        margin: #{$i}px !important;
+    }
+
+    .margin-t#{$i} {
+        margin-top: #{$i}px !important;
+    }
+
+    .margin-b#{$i} {
+        margin-bottom: #{$i}px !important;
+    }
+
+    .margin-r#{$i} {
+        margin-right: #{$i}px !important;
+    }
+
+    .margin-l#{$i} {
+        margin-left: #{$i}px !important;
+    }
+
+    .margin-tb#{$i} {
+        margin-top: #{$i}px !important;
+        margin-bottom: #{$i}px !important;
+    }
+
+    .margin-lr#{$i} {
+        margin-left: #{$i}px !important;
+        margin-right: #{$i}px !important;
+    }
+
+    .padding#{$i} {
+        padding: #{$i}px !important;
+    }
+
+    .padding-t#{$i} {
+        padding-top: #{$i}px !important;
+    }
+
+    .padding-b#{$i} {
+        padding-bottom: #{$i}px !important;
+    }
+
+    .padding-r#{$i} {
+        padding-right: #{$i}px !important;
+    }
+
+    .padding-l#{$i} {
+        padding-left: #{$i}px !important;
+    }
+
+    .padding-tb#{$i} {
+        padding-top: #{$i}px !important;
+        padding-bottom: #{$i}px !important;
+    }
+
+    .padding-lr#{$i} {
+        padding-left: #{$i}px !important;
+        padding-right: #{$i}px !important;
+    }
+}
+
+//行数限制省略号
+@for $i from 1 through 5 {
+    .line#{$i} {
+        @if $i =='1' {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        @else {
+            display: -webkit-box !important;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-all;
+            -webkit-line-clamp: $i;
+            -webkit-box-orient: vertical !important;
+        }
+    }
+}
+
+//自定义滚动条
+.scrollbar {
+
+    //定义滚动条
+    &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+        background-color: #ffffff;
+    }
+
+    //定义轨道
+    &::-webkit-scrollbar-track {
+        border-radius: 3px;
+        background-color: #ffffff;
+    }
+
+    //定义滑块
+    &::-webkit-scrollbar-thumb {
+        border-radius: 3px;
+        background-color: #dddee0;
+    }
+}
+
+//隐藏滚动条
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+    width: 0 !important;
+    height: 0 !important;
+    -webkit-appearance: none;
+    background: transparent;
+}
