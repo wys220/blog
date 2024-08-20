@@ -41,18 +41,19 @@ const handleClick = (tab, event) => {
         font-size: 32px;
         font-weight: 600;
     }
-    :deep {
-        .el-tabs__nav-wrap::after {
-            background-color: var(--text-color);
-        }
-        .el-tabs__item {
-            color: var(--text-color);
-        }
-        .el-tabs__item.is-active,
-        .el-tabs__item:hover,
-        .el-tabs__active-bar {
-            color: #0089ff;
-        }
+    :deep(.el-tabs__nav-wrap::after) {
+        background-color: var(--text-color);
+    }
+    :deep(.el-tabs__item) {
+        color: var(--text-color);
+    }
+    :deep(
+            .el-tabs__item,
+            .el-tabs__item.is-active,
+            .el-tabs__item:hover,
+            .el-tabs__active-bar
+        ) {
+        color: #0089ff;
     }
 }
 </style>

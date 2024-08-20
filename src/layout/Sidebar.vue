@@ -165,13 +165,11 @@ onMounted(() => {
         }
     }
     .sider-item1 {
-        :deep {
-            .el-progress-bar__outer {
-                background-color: #c8ccd4;
-            }
-            .el-progress__text {
-                color: var(--text-color);
-            }
+        :deep(.el-progress-bar__outer) {
+            background-color: #c8ccd4;
+        }
+        :deep(.el-progress__text) {
+            color: var(--text-color);
         }
     }
 }

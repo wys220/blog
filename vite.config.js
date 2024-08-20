@@ -1,4 +1,4 @@
-import path from'path'
+import path from 'path'
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import compressPlugin from 'vite-plugin-compression';
@@ -6,7 +6,8 @@ import { resolve } from 'path';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
 export default defineConfig(config => ({
-    base: '/wys220/',
+    // base: '/blog/',
+    publicPath: '/blog/',
     plugins: [
         // 配置需要使用的插件列表
         vue(),
