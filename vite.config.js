@@ -6,8 +6,8 @@ import { resolve } from 'path';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
 export default defineConfig(config => ({
-    // base: '/blog/',
-    publicPath: '/blog/',
+    base: '/blog/',
+    // publicPath: '/blog/',
     plugins: [
         // 配置需要使用的插件列表
         vue(),
