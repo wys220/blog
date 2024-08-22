@@ -16,4 +16,7 @@ import AppMain from "@/layout/AppMain"
     -webkit-tap-highlight-color: transparent;
     outline: none !important;
 }
+body {
+    background: rgba(0, 0, 0, 0.1);
+}
 </style>

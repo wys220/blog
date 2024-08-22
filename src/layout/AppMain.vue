@@ -2,7 +2,7 @@
     <Astral v-if="isDarkTheme"></Astral>
     <div :class="['bg',{'dark-bg':isDarkTheme}]"
          :style="{'--bgUrl':`url(${imageUrl})`}"></div>
-    <div class="container  text-center">
+    <div class="container text-center">
         <Header :currentScrollTop="currentScrollTop"
                 :isUpScroll="isUpScroll">
         </Header>
@@ -106,6 +106,7 @@ onBeforeMount(() => {
     -webkit-background-size: cover;
     background-repeat: no-repeat;
 }
+
 .dark-bg::after {
     content: "";
     position: absolute;
@@ -122,7 +123,7 @@ onBeforeMount(() => {
         width: 100%;
         max-width: 1200px;
         // min-height: 50vh;
-        background: transparent;
+        background: transparent !important;
         margin: 0 auto;
         .main-area {
             width: 75%;
