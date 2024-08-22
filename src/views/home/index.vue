@@ -48,7 +48,6 @@ const handleClick = (tab, event) => {
         color: var(--text-color);
     }
     :deep(
-            .el-tabs__item,
             .el-tabs__item.is-active,
             .el-tabs__item:hover,
             .el-tabs__active-bar

@@ -45,24 +45,34 @@ const gotoTop = () => {
 
 let bgurlList = ref([])
 let imageUrl = ref('')
-let count = ref(0)
+let count = ref(1)
 
 // 获取所以图片
 const allImages = () => {
     const files = import.meta.globEager("@c/assets/images/bg/*.jpg");
     bgurlList.value = Object.keys(files)
-    emit('getBgUrl', bgurlList.value[0])
+    getBgUrl(1)
     // console.log(bgurlList.value, 'bgurlList.value');
 }
+
+// 获取图片
+const getBgUrl = (index) => {
+    console.log(index, 'index');
+    let url = new URL(`../common/assets/images/bg/${index}.jpg`, import.meta.url).href
+    imageUrl.value = url || defeultImageUrl
+
+    // console.log(imageUrl.value, 'imageUrl.valueimageUrl.value');
+    emit('getBgUrl', imageUrl.value)
+}
+
 // 刷新背景
 const refreshBg = () => {
-    if (count.value > bgurlList.value.length - 2) {
-        count.value = 0
+    if (count.value > bgurlList.value.length - 1) {
+        count.value = 1
     } else {
         count.value++
     }
-    imageUrl.value = bgurlList.value[count.value] || defeultImageUrl
-    emit('getBgUrl', imageUrl.value)
+    getBgUrl(count.value)
 }
 
 onBeforeMount(() => {
