@@ -29,13 +29,13 @@ export default defineConfig(config => ({
         // open: true, //服务启动时自动在浏览器中打开应用
         strictPort: false, //设为true时端口被占用则直接退出，不会尝试下一个可用端口
         // 反向代理配置
-        proxy: {
-            '/api': {
-                proxy: 'https://dev.xxx.com/api/',
-                changeOrigin: true,
-                rewrite: path => path.replace(/^\/api/, '')
-            }
-        }
+        // proxy: {
+        //     '/api': {
+        //         proxy: 'https://dev.xxx.com/api/',
+        //         changeOrigin: true,
+        //         rewrite: path => path.replace(/^\/api/, '')
+        //     }
+        // }
     },
     resolve: {
         //配置别名

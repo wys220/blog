@@ -19,6 +19,7 @@
                 </g-svg-icon>
                 <g-svg-icon :name="isFullscreen ? 'cancelFullScreen' : 'fullScreen'"
                             @click="toggleFullscreen($refs.fullScreenRef)"
+                            color="#ffffff"
                             class="full-screen"
                             size="20">
                 </g-svg-icon>

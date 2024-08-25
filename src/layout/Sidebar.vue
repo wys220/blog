@@ -7,7 +7,7 @@
                      srcset="">
             </div>
             <div class="name font20 fontw margin-tb8">吾小顺</div>
-            <div class="motto font16">运气是计划之外的东西.</div>
+            <div class="motto font16">运气是计划之外的东西</div>
             <div class="tools margin-t20 flex-sa font16">
                 <div class="flex-col-c item">
                     <div>文章</div>
@@ -81,7 +81,7 @@
                 标签
             </div>
             <div class="padding20">
-                便签: {{$store.state.common?.test}}
+                {{$store.state.common?.test}}
             </div>
         </div>
     </div>

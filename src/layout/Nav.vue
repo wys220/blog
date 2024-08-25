@@ -12,7 +12,8 @@
                 <Search></Search>
             </div>
             <div class="flex-e menus margin-l20">
-                <div class="menus-item" @click="goPage('')">
+                <div class="menus-item"
+                     @click="goPage('')">
                     <a href="javascript:void(0);"> 首页</a>
                 </div>
                 <div class="menus-item">
@@ -36,8 +37,11 @@
                     <ul class="ul">
                         <li @click="goPage('picture')">相册</li>
                         <li @click="goPage('video')">视频</li>
-                        <li @click="goPage('tools')">工具</li>
                     </ul>
+                </div>
+                <div class="menus-item"
+                     @click="goPage('tools')">
+                    <a href="javascript:void(0);">工具</a>
                 </div>
                 <div class="menus-item">
                     <a href="javascript:void(0);">关于</a>

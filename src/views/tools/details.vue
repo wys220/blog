@@ -7,11 +7,13 @@
 <script>
 import DrawRectangle from "./components/DrawRectangle"
 import MathsCompute from "./components/MathsCompute"
+import Signature from "./components/Signature"
 
 export default {
     components: {
         DrawRectangle,
-        MathsCompute
+        MathsCompute,
+        Signature
     }
 }
 

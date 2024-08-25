@@ -2,25 +2,27 @@
     <div class="tools font25 padding5 pf">
         <div class="item"
              @click="toggleTheme()">
-            <el-icon v-if="theme === 'light'">
-                <Moon />
-            </el-icon>
-            <el-icon v-else>
-                <Sunny />
-            </el-icon>
+            <g-svg-icon v-if="theme === 'light'"
+                        name="nightIcon"
+                        size="28">
+            </g-svg-icon>
+            <g-svg-icon v-else
+                        name="dayIcon"
+                        size="28">
+            </g-svg-icon>
         </div>
         <div class="item"
              @click="refreshBg()">
-            <el-icon>
-                <RefreshLeft />
-            </el-icon>
+            <g-svg-icon name="refreshIcon"
+                        size="28">
+            </g-svg-icon>
         </div>
         <div class="item"
              v-if="currentScrollTop > 0"
              @click="gotoTop()">
-            <el-icon>
-                <Top />
-            </el-icon>
+            <g-svg-icon name="topIcon"
+                        size="28">
+            </g-svg-icon>
         </div>
     </div>
 </template>
@@ -57,7 +59,7 @@ const allImages = () => {
 
 // 获取图片
 const getBgUrl = (index) => {
-    console.log(index, 'index');
+    // console.log(index, 'index');
     let url = new URL(`../common/assets/images/bg/${index}.jpg`, import.meta.url).href
     imageUrl.value = url || defeultImageUrl
 
@@ -91,11 +93,11 @@ onBeforeMount(() => {
         display: flex;
         margin: 10px;
         padding: 5px;
-        background: #7684ff;
+        background: var(--bg-color);
         border-radius: 4px;
         cursor: pointer;
         &:hover {
-            background: #9da4e9;
+            background: #c1c3d2;
         }
     }
 }

@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import { ref, nextTick, onMounted, getCurrentInstance, watch } from "vue";
+import { ref, nextTick, onMounted, getCurrentInstance, watch, onUnmounted } from "vue";
 import { draw, drawList } from "../utils/draw.js"
 const { proxy } = getCurrentInstance();
 
@@ -26,8 +26,8 @@ const initCanvas = () => {
         let cav = proxy.$refs.markCanvasRef;
         let contaiEl = proxy.$refs.contentRef;
 
-        const w = contaiEl.offsetWidth
-        const h = contaiEl.offsetHeight
+        const w = contaiEl?.offsetWidth
+        const h = contaiEl?.offsetHeight
 
         // const style = window.getComputedStyle(contaiEl);
         // console.log('Width:', w);
@@ -71,8 +71,14 @@ onMounted(() => {
     initCanvas()
     window.addEventListener('resize', () => {
         console.log('缩放123');
-        initCanvas()
+        setTimeout(() => {
+            initCanvas()
+        }, 200)
     })
+})
+
+onUnmounted(() => {
+    window.removeEventListener('resize', () => { })
 })
 </script>
 
