@@ -1,3 +1,4 @@
+<!-- 页面头部 -->
 <template>
     <header :class="['header','pr',{'header-light':!isDarkTheme}]"
             :style="{'--hieght':isHome?'100vh':'50vh'}">
@@ -5,19 +6,22 @@
              :currentScrollTop="currentScrollTop"
              :isUpScroll="isUpScroll">
         </Nav>
-        <div class="pa w100 search padding20"
-             v-if="currentScrollTop === 0">
-            <Search></Search>
-        </div>
         <div class="pa w100 text-center info-group padding40">
-            <h1>吾顺</h1>
-            <div class="margin-t10">席卷英豪天下来，千古化境一念同。 </div>
+            <h1 style='font-family: "仓耳渔阳体 W02"'>吾顺博客</h1>
+            <div class="margin-t10">
+                <TypeWriter text="席卷英豪天下来，千古化境一念同。"
+                            :typing-speed="150"
+                            :deleting-speed="50"
+                            :pause-duration="3000"
+                            :loop="true" />
+            </div>
         </div>
-        <div class="more pa w100 font30"
-             @click="jump('main')">
-            <el-icon>
-                <ArrowDownBold />
-            </el-icon>
+        <div class="more pa w100 font30">
+            <g-icons @click="jump('main')"
+                     iconName="icon-zhidi"
+                     className="cp"
+                     size="30">
+            </g-icons>
         </div>
     </header>
 </template>
@@ -29,6 +33,7 @@ import Search from './Search.vue'
 import { useTheme } from '../common/hooks/useTheme.js'
 import router from "@/router";
 import store from "@/store"
+import TypeWriter from "@c/components/TypeWriter"
 
 const props = defineProps({
     currentScrollTop: {
@@ -76,10 +81,10 @@ watch(() => router.currentRoute.value.path, (newValue, oldValue) => {
     .info-group {
         top: 40%;
         color: #fff;
+
     }
     .more {
-        bottom: 0;
-        cursor: pointer;
+        bottom: 3px;
         animation: move-up-down 2s infinite;
     }
 
@@ -91,7 +96,7 @@ watch(() => router.currentRoute.value.path, (newValue, oldValue) => {
             color: #6b6b6b;
         }
         50% {
-            bottom: 5px;
+            bottom: 8px;
             transform: translateY(-5px);
             color: #fff;
         }
@@ -107,7 +112,7 @@ watch(() => router.currentRoute.value.path, (newValue, oldValue) => {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.2);
     top: 0;
     left: 0;
     z-index: -1;

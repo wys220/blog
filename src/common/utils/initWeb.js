@@ -17,8 +17,11 @@ import directiveList from './directive';
 // 路由守卫
 import './permission';
 import router from '@/router/index';
+//引入离线阿里巴巴矢量图标icon文件
+import "@c/assets/iconfonts/iconfont.js";
+//引入阿里巴巴字体库s
+import "@c/assets/iconfonts/font.css";
 //引入icon
-import '@c/assets/iconfonts/iconfont.css';
 import '@c/assets/icons/index.js';
 //导入Svg图片插件，可以在页面上显示Svg图片
 import 'virtual:svg-icons-register';
@@ -67,5 +70,10 @@ export default class InitWeb {
         }
         this.app.mount("#app")
         this.app.config.globalProperties.$fn = GlobalFn
+
+        // 获取全部背景图
+        store.dispatch('app/getAllBgImages')
     }
+
+
 }

@@ -15,8 +15,12 @@ import AppMain from "@/layout/AppMain"
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     -webkit-tap-highlight-color: transparent;
     outline: none !important;
+    font-family: "仓耳渔阳体 W03";
 }
 body {
     background: rgba(0, 0, 0, 0.1);
+}
+.el-overlay {
+    background-color: transparent !important;
 }
 </style>

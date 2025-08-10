@@ -46,8 +46,8 @@ const selectType = (val) => {
 .tools-type {
     .box {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 10px 10px;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 10px;
         .box-item {
             border: 1px solid var(--border-color);
             background: var(--bg-color);

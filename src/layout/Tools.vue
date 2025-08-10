@@ -1,5 +1,11 @@
+<!-- 右侧悬浮工具栏 -->
 <template>
     <div class="tools font25 padding5 pf">
+        <div class="item"
+             @click="openSetting()">
+            <g-icons iconName="icon-shezhi"
+                     size="28"></g-icons>
+        </div>
         <div class="item"
              @click="toggleTheme()">
             <g-svg-icon v-if="theme === 'light'"
@@ -25,61 +31,41 @@
             </g-svg-icon>
         </div>
     </div>
+    <Setting ref="settingRef"></Setting>
 </template>
 
 <script setup>
-import { onBeforeMount, ref } from 'vue'
-import defeultImageUrl from "@/common/assets/images/bg.jpeg"
+import { getCurrentInstance } from "vue"
 import { useTheme } from '../common/hooks/useTheme.js'
+import store from "@/store"
+import Setting from "./Setting.vue"
 
-const { theme, toggleTheme } = useTheme()
-const emit = defineEmits(['getBgUrl'])
 const props = defineProps({
     currentScrollTop: {
         typeo: Number,
     }
 })
 
+const emit = defineEmits(['getBgUrl'])
+const { proxy } = getCurrentInstance();
+
+const { theme, toggleTheme } = useTheme()
+
 // 置顶
 const gotoTop = () => {
-    window.scrollTo(0, 0)
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    })
 }
-
-let bgurlList = ref([])
-let imageUrl = ref('')
-let count = ref(1)
-
-// 获取所以图片
-const allImages = () => {
-    const files = import.meta.globEager("@c/assets/images/bg/*.jpg");
-    bgurlList.value = Object.keys(files)
-    getBgUrl(1)
-    // console.log(bgurlList.value, 'bgurlList.value');
-}
-
-// 获取图片
-const getBgUrl = (index) => {
-    // console.log(index, 'index');
-    let url = new URL(`../common/assets/images/bg/${index}.jpg`, import.meta.url).href
-    imageUrl.value = url || defeultImageUrl
-
-    // console.log(imageUrl.value, 'imageUrl.valueimageUrl.value');
-    emit('getBgUrl', imageUrl.value)
-}
-
-// 刷新背景
+// 刷新背景图
 const refreshBg = () => {
-    if (count.value > bgurlList.value.length - 1) {
-        count.value = 1
-    } else {
-        count.value++
-    }
-    getBgUrl(count.value)
+    store.dispatch('app/updateBgUrl')
 }
-
-onBeforeMount(() => {
-    allImages()
-})
+// 打开设置
+const openSetting = () => {
+    proxy.$refs.settingRef?.open()
+}
 </script>
 
 <style lang="scss" scoped>
@@ -97,7 +83,7 @@ onBeforeMount(() => {
         border-radius: 4px;
         cursor: pointer;
         &:hover {
-            background: #c1c3d2;
+            background: #bec5ff;
         }
     }
 }

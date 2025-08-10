@@ -8,10 +8,8 @@
                  class="box-item">
                 <div class="item flex-s">
                     <div class="icon">
-                        <g-svg-icon :name="i.icon"
-                                    class="back"
-                                    size="40">
-                        </g-svg-icon>
+                        <g-icons :iconName="i.icon"
+                                 size="40"></g-icons>
                     </div>
                     <div class="content">
                         <div class="name line1">{{ i.name }}</div>
@@ -30,16 +28,16 @@ import router from "@/router";
 
 // 图片类型
 const typeList = ref([
-    { type: "beauty", name: "美女", icon: 'defaultItem', desc: '美女图片集合' },
-    { type: "person", name: "人物", icon: 'defaultItem', desc: '人物图片集合' },
-    { type: "car", name: "汽车", icon: 'defaultItem', desc: '汽车图片集合' },
-    { type: "comic", name: "漫画", icon: 'defaultItem', desc: '漫画图片集合' },
-    { type: "animal", name: "动物", icon: 'defaultItem', desc: '动物图片集合' },
-    { type: "game", name: "游戏", icon: 'defaultItem', desc: '游戏图片集合' },
-    { type: "movie", name: "电影", icon: 'defaultItem', desc: '电影图片集合' },
-    { type: "food", name: "食物", icon: 'defaultItem', desc: '食物图片集合' },
-    { type: "phone", name: "电话", icon: 'defaultItem', desc: '电话图片集合' },
-    { type: "scenery", name: "风景", icon: 'defaultItem', desc: '风景图片集合' },
+    { type: "beauty", name: "美女", icon: 'icon-meinv', desc: '美女图片集合' },
+    { type: "person", name: "人物", icon: 'icon-renwu', desc: '人物图片集合' },
+    { type: "car", name: "汽车", icon: 'icon-qiche', desc: '汽车图片集合' },
+    { type: "comic", name: "漫画", icon: 'icon-manhua', desc: '漫画图片集合' },
+    { type: "animal", name: "动物", icon: 'icon-dongwu', desc: '动物图片集合' },
+    { type: "game", name: "游戏", icon: 'icon-youxi', desc: '游戏图片集合' },
+    { type: "movie", name: "电影", icon: 'icon-dianying', desc: '电影图片集合' },
+    { type: "food", name: "食物", icon: 'icon-shiwu', desc: '食物图片集合' },
+    { type: "phone", name: "电话", icon: 'icon-dianhua', desc: '电话图片集合' },
+    { type: "scenery", name: "风景", icon: 'icon-fengjing', desc: '风景图片集合' },
 ]);
 // 选择类型
 const selectType = (val) => {
@@ -53,8 +51,8 @@ const selectType = (val) => {
 .pictrue-type {
     .box {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 10px 10px;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 10px;
         .box-item {
             border: 1px solid var(--border-color);
             background: var(--bg-color);

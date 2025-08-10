@@ -1,6 +1,6 @@
 // 暗色主题
 html[data-theme="dark"] {
-    --text-color: #ffffffde;
+    --text-color: #ffffffe5;
     --bg-color: #00000080;
     --border-color: #73767a;
 }
@@ -8,7 +8,7 @@ html[data-theme="dark"] {
 // 默认亮色主题
 :root {
     --text-color: #333;
-    --bg-color: #ffffffe6;
+    --bg-color: #ffffff80;
     --border-color: #dcdfe6;
 }
 

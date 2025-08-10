@@ -1,35 +1,33 @@
+<!-- 搜索组件 -->
 <template>
-    <el-input v-model="inputVal"
-              style="max-width: 600px"
-              @keyup.enter="gotoSearch"
-              placeholder="请输入...">
-        <template #prepend>
-            <el-select v-model="select"
-                       placeholder="请选择"
-                       style="width: 115px">
-                <el-option label="百度"
-                           value="baidu" />
-                <el-option label="必应"
-                           value="biying" />
-                <el-option label="360"
-                           value="360" />
-                <el-option label="知乎"
-                           value="zhihu" />
-                <el-option label="掘金"
-                           value="juejin" />
-            </el-select>
-        </template>
-        <template #append>
-            <el-button :icon="Search"
-                       @click="gotoSearch" />
-        </template>
-    </el-input>
+    <div class="search">
+        <select v-model="select">
+            <option label="百度"
+                    value="baidu" />
+            <option label="必应"
+                    value="biying" />
+            <option label="360"
+                    value="360" />
+            <option label="知乎"
+                    value="zhihu" />
+            <option label="掘金"
+                    value="juejin" />
+        </select>
+        <input v-model="inputVal"
+               type="text"
+               @keyup.native.enter="gotoSearch"
+               placeholder="请输入...">
+        <div class="btn"
+             @click="gotoSearch">
+            <g-icons iconName="icon-sousuo1"
+                     className="icon-sousuo"
+                     size="30"></g-icons>
+        </div>
+    </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import { Search } from '@element-plus/icons-vue'
-
 let select = ref('biying')
 let inputVal = ref('')
 
@@ -50,4 +48,58 @@ const gotoSearch = () => {
 </script>
 
 <style lang="scss" scoped>
+.search {
+    position: relative;
+    width: 250px;
+    margin: 0 auto;
+
+    select {
+        height: 35px;
+        width: 60px;
+        cursor: pointer;
+        left: -60px;
+        position: absolute;
+        background: #337ecc;
+        font-size: 13px;
+        color: #f9f0da;
+        text-align: center;
+        // appearance: none;
+        // -webkit-appearance: none;
+        // -moz-appearance: none;
+    }
+
+    select,
+    input,
+    button {
+        border: none;
+        outline: none;
+    }
+
+    input {
+        width: 100%;
+        height: 35px;
+        padding-right: 45px;
+        padding-left: 5px;
+        border: 2px solid #337ecc;
+        border-radius: 0 5px 5px 0;
+        background: #fdf6ec;
+        top: 0;
+        right: 0;
+        font-size: 14px;
+    }
+
+    .btn {
+        background: #337ecc;
+        border-radius: 0 5px 5px 0;
+        top: 0;
+        right: 0;
+        height: 35px;
+        width: 40px;
+        cursor: pointer;
+        position: absolute;
+        .icon-sousuo {
+            margin-top: 2px;
+        }
+    }
+}
 </style>

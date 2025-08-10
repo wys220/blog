@@ -1,3 +1,4 @@
+<!-- 主区域右侧侧边栏 -->
 <template>
     <div class="siderbar">
         <div class="siderbar-sty sider-item flex-col-c">
@@ -89,7 +90,7 @@
 
 <script setup>
 import { onMounted, ref, getCurrentInstance } from "vue";
-import logoUrl from "@/common/assets/images/logo.png"
+import logoUrl from "@/assets/images/bg.jpeg"
 
 const { proxy } = getCurrentInstance();
 

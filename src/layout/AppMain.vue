@@ -1,7 +1,8 @@
+<!-- 入口文件：//images.weserv.nl/?url= -->
 <template>
     <Astral v-if="isDarkTheme"></Astral>
     <div :class="['bg',{'dark-bg':isDarkTheme}]"
-         :style="{'--bgUrl':`url(${imageUrl})`}"></div>
+         :style="{'--bgUrl':`url(${currentBgUrl})`}"></div>
     <div class="container text-center">
         <Header :currentScrollTop="currentScrollTop"
                 :isUpScroll="isUpScroll">
@@ -10,19 +11,17 @@
               id="main">
             <div class="main-area pr margin-r20"
                  ref="fullScreenRef">
-                <g-svg-icon v-if="isShowBack"
-                            name="back"
-                            class="back"
-                            color="#ffffff"
-                            @click="$router.go(-1)"
-                            size="18">
-                </g-svg-icon>
-                <g-svg-icon :name="isFullscreen ? 'cancelFullScreen' : 'fullScreen'"
-                            @click="toggleFullscreen($refs.fullScreenRef)"
-                            color="#ffffff"
-                            class="full-screen"
-                            size="20">
-                </g-svg-icon>
+                <g-icons v-if="isShowBack"
+                         iconName="icon-fanghui"
+                         className="back"
+                         size="20"
+                         @click="$router.go(-1)">
+                </g-icons>
+                <g-icons :iconName="isFullscreen ? 'icon-shouqiquanping' : 'icon-quanpingzhankai'"
+                         className="full-screen"
+                         size="25"
+                         @click="toggleFullscreen($refs.fullScreenRef)">
+                </g-icons>
                 <router-view />
             </div>
             <div class="f1">
@@ -32,8 +31,7 @@
         <footer class="footer">@copyright 20240501 吾顺日记</footer>
     </div>
     <!-- 工具栏 -->
-    <Tools :currentScrollTop="currentScrollTop"
-           @getBgUrl="(val) =>imageUrl = val"></Tools>
+    <Tools :currentScrollTop="currentScrollTop"></Tools>
     <!-- 播放器 -->
     <g-aplayer></g-aplayer>
 </template>
@@ -45,6 +43,8 @@ import Astral from './Astral.vue'
 import Tools from './Tools.vue'
 import Header from './Header.vue'
 import Sidebar from './Sidebar.vue'
+import store from "@/store"
+
 import { useFullscreen } from "@c/tools/FullScreen.js"
 import { useRoute } from "vue-router";
 
@@ -55,7 +55,7 @@ const { isFullscreen, toggleFullscreen } = useFullscreen()
 
 const { theme } = useTheme()
 
-const imageUrl = ref('')
+const currentBgUrl = computed(() => store.state.app.currentBgUrl)
 
 let isDarkTheme = computed(() => theme.value === 'dark')
 
@@ -113,7 +113,7 @@ onBeforeMount(() => {
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.4);
     top: 0;
     left: 0;
     z-index: -1;
