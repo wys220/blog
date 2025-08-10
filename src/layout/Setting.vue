@@ -73,8 +73,6 @@ defineExpose({ open })
         background-color: #b3e19d;
     }
 }
-.rigth {
-}
 </style>
 
 <style lang="scss">
