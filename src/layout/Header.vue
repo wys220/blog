@@ -6,7 +6,7 @@
              :currentScrollTop="currentScrollTop"
              :isUpScroll="isUpScroll">
         </Nav>
-        <div class="pa w100 text-center info-group padding40">
+        <div class="pa w100 t-center info-group padding40">
             <h1 style='font-family: "仓耳渔阳体 W02"'>吾顺博客</h1>
             <div class="margin-t10">
                 <TypeWriter text="席卷英豪天下来，千古化境一念同。"
@@ -16,8 +16,8 @@
                             :loop="true" />
             </div>
         </div>
-        <div class="more pa w100 font30">
-            <g-icons @click="jump('main')"
+        <div class="more pa w100 font30 t-center">
+            <g-icons @click="jump('main-area')"
                      iconName="icon-zhidi"
                      className="cp"
                      size="30">
@@ -81,7 +81,6 @@ watch(() => router.currentRoute.value.path, (newValue, oldValue) => {
     .info-group {
         top: 40%;
         color: #fff;
-
     }
     .more {
         bottom: 3px;

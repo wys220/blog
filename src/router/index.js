@@ -12,6 +12,14 @@ const routes = [
         meta: {}
     },
     {
+        path: '/home/details/:name',
+        name: 'homeDetails',
+        component: () => import('@/views/home/details.vue'),
+        meta: {
+            isBackIcon: true,
+        }
+    },
+    {
         path: '/picture',
         name: 'picture',
         component: () => import('@/views/picture/index.vue'),
@@ -29,6 +37,12 @@ const routes = [
         path: '/video',
         name: 'video',
         component: () => import('@/views/video/index.vue'),
+        meta: {}
+    },
+    {
+        path: '/blog',
+        name: 'video',
+        component: () => import('@/views/blog/index.vue'),
         meta: {}
     },
     {

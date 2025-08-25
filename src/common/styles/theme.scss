@@ -1,15 +1,15 @@
 // 暗色主题
 html[data-theme="dark"] {
-    --text-color: #ffffffe5;
+    --text-color: #f2f2f2;
     --bg-color: #00000080;
-    --border-color: #73767a;
+    --border-color: #c8cbce;
 }
 
 // 默认亮色主题
 :root {
-    --text-color: #333;
+    --text-color: #1d1d1d;
     --bg-color: #ffffff80;
-    --border-color: #dcdfe6;
+    --border-color: #868686;
 }
 
-$theme-color: #409eff
+$theme-color: #ff6700

@@ -111,7 +111,7 @@ body {
 
 //对齐方式
 @each $t in left, center, right {
-    .text-#{$t} {
+    .t-#{$t} {
         text-align: #{$t} !important;
     }
 }
@@ -246,4 +246,20 @@ body {
     height: 0 !important;
     -webkit-appearance: none;
     background: transparent;
+}
+
+// hover 效果 多行同时往右
+.text-hover-left {
+    display: inline;
+    background: linear-gradient($theme-color, $theme-color) no-repeat;
+    background-size: 0% 2px;
+    background-position: left 100%;
+    transition: background-size 0.5s ease;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    padding-bottom: 2px;
+
+    &:hover {
+        background-size: 100% 2px;
+    }
 }

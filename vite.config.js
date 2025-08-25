@@ -28,13 +28,16 @@ export default defineConfig(config => ({
         // open: true, //服务启动时自动在浏览器中打开应用
         strictPort: false, //设为true时端口被占用则直接退出，不会尝试下一个可用端口
         // 反向代理配置
-        // proxy: {
-        //     '/api': {
-        //         proxy: 'https://dev.xxx.com/api/',
-        //         changeOrigin: true,
-        //         rewrite: path => path.replace(/^\/api/, '')
-        //     }
-        // }
+        proxy: {
+            // 用 "/gitee-proxy" 前缀代理 Gitee 请求
+            '/gitee-proxy': {
+                target: 'https://gitee.com/wu_yongshun/wu_yongshun/raw/master',
+                changeOrigin: true, // 关键：模拟同源请求
+                rewrite: (path) => path.replace(/^\/gitee-proxy/, ''), // 移除前缀
+                // 处理 HTTPS 证书问题（开发环境可能需要）
+                secure: false
+            }
+        }
     },
     resolve: {
         //配置别名
@@ -47,7 +50,7 @@ export default defineConfig(config => ({
     css: {
         preprocessorOptions: {
             scss: {
-                additionalData: '@import "@c/styles/index.scss";',
+                additionalData: '@import "@c/styles/theme.scss";',
             }
         }
     },

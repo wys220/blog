@@ -16,19 +16,19 @@
                                  size="20"></g-icons>首页
                     </a>
                 </div>
-                <div class="menus-item">
+                <div class="menus-item"
+                     @click="goPage('blog')">
                     <a href="javascript:void(0);">
                         <g-icons iconName="icon-faxian"
-                                 size="20"></g-icons>发现
-                        <el-icon class="icon">
-                            <ArrowDown />
-                        </el-icon>
+                                 size="20"></g-icons>随记
                     </a>
-                    <ul class="ul">
-                        <li @click="goPage('')"><g-icons iconName="icon-riji"></g-icons>日记</li>
-                        <li @click="goPage('')"><g-icons iconName="icon-wenzhang"></g-icons>文章</li>
-                        <li @click="goPage('')"><g-icons iconName="icon-biaoqian"></g-icons>标签</li>
-                    </ul>
+                </div>
+                <div class="menus-item"
+                     @click="goPage('tools')">
+                    <a href="javascript:void(0);">
+                        <g-icons iconName="icon-gongjuxiang"
+                                 size="20"></g-icons>工具
+                    </a>
                 </div>
                 <div class="menus-item">
                     <a href="javascript:void(0);">
@@ -42,19 +42,6 @@
                         <li @click="goPage('picture')"><g-icons iconName="icon-tupian"></g-icons>相册</li>
                         <li @click="goPage('video')"><g-icons iconName="icon-shipin"></g-icons>视频</li>
                     </ul>
-                </div>
-                <div class="menus-item"
-                     @click="goPage('tools')">
-                    <a href="javascript:void(0);">
-                        <g-icons iconName="icon-gongjuxiang"
-                                 size="20"></g-icons>工具
-                    </a>
-                </div>
-                <div class="menus-item">
-                    <a href="javascript:void(0);">
-                        <g-icons iconName="icon-youqinglianjie"
-                                 size="20"></g-icons>友情链接
-                    </a>
                 </div>
                 <div class="menus-item">
                     <a href="javascript:void(0);">

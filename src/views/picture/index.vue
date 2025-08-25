@@ -41,7 +41,7 @@ const typeList = ref([
 ]);
 // 选择类型
 const selectType = (val) => {
-    console.log(val, 'val');
+    // console.log(val, 'val');
     router.push(`/picture/details/${val?.type}`)
 };
 

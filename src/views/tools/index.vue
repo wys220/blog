@@ -1,22 +1,33 @@
 <!-- 工具页面 -->
 <template>
-    <div class="tools-type w100">
-        <div class="box w100 padding10">
-            <div v-for="(i, index) in typeList"
-                 :key="index"
-                 @click="selectType(i)"
-                 class="box-item">
-                <div class="item flex-s">
-                    <div class="icon">
-                        <g-svg-icon :name="i.icon"
-                                    class="back"
-                                    size="40">
-                        </g-svg-icon>
-                    </div>
-                    <div class="content">
-                        <div class="name line1">{{ i.name }}</div>
-                        <p class="desc line1"
-                           :title="i.desc">{{ i.desc }}</p>
+    <div class="tools-type w100 padding10">
+        <div v-if="tools"
+             class="flex-s margin-b10">
+            <div class="font22 fontw">{{ tools?.name }}:</div>
+            <div class="font18 f1 line1 t-left padding-l5">{{ tools?.desc }}</div>
+        </div>
+        <div v-for="(item,Iindex) in tools?.data"
+             :key="Iindex"
+             class="margin-b20">
+            <div class="flex-s font20 fontw pr margin-b10">
+                <div class="type-name padding-l15">{{ item?.type }}</div>
+            </div>
+            <div class="box">
+                <div v-for="(i, index) in item?.list"
+                     :key="index"
+                     @click="selectTool(i)"
+                     class="box-item">
+                    <div class="item flex-s">
+                        <div class="icon">
+                            <g-icons :iconName="i?.icon || 'icon-tiaozhuan'"
+                                     size="40">
+                            </g-icons>
+                        </div>
+                        <div class="content">
+                            <div class="name line1">{{ i.name }}</div>
+                            <p class="desc line1"
+                               :title="i.desc">{{ i.desc }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -25,8 +36,12 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import router from "@/router";
+import store from "@/store"
+
+const tools = computed(() => store.state.sites?.allTools) //获取缓存里面的所有工具
+
 
 // 类型列表
 const typeList = ref([
@@ -35,15 +50,33 @@ const typeList = ref([
     { type: "Signature", icon: 'signature', name: "电子签名", desc: '使用canvas实现简易版的电子签名，同时支持预览和生成图片。' },
 ]);
 // 选择类型
-const selectType = (val) => {
+const selectType = (item) => {
     // console.log(val, '工具类型val');
-    router.push(`/tools/details/${val?.type}`)
+    // router.push(`/tools/details/${val?.type}`)
+};
+
+// 选择工具跳转
+const selectTool = (item) => {
+    if (!item?.url) return
+    window.open(item?.url, '_blank')
 };
 
 </script>
 
 <style lang="scss" scoped>
 .tools-type {
+    .type-name {
+        &::before {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 1px;
+            width: 6px;
+            height: 90%;
+            border-radius: 4px;
+            background: #1073ec;
+        }
+    }
     .box {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -63,19 +96,18 @@ const selectType = (val) => {
                 .content {
                     text-align: left;
                     margin-left: 10px;
+                    color: var(--text-color);
                     overflow: hidden;
                     .name {
                         width: 100%;
                         margin-bottom: 5px;
                         font-size: 14px;
                         font-weight: 700;
-                        color: var(--text-color);
                         line-height: 1.2;
                     }
                     .desc {
                         min-width: 0;
                         font-size: 12px;
-                        color: #999;
                     }
                 }
             }

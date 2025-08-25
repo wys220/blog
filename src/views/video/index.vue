@@ -110,10 +110,8 @@ onMounted(() => {
     overflow: auto;
     .main {
         display: grid;
-        grid-template-rows: repeat(4, auto);
-        grid-template-columns: repeat(4, auto);
-        grid-gap: 10px;
-        margin: 10px;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 10px;
         .item {
             display: flex;
             justify-content: center;
@@ -154,35 +152,6 @@ onMounted(() => {
         }
         .card:hover {
             background-color: #19b955c2;
-        }
-    }
-    .loading {
-        text-align: center;
-        font-size: 16px;
-        color: #5f5f5f;
-        margin-bottom: 20px;
-        letter-spacing: 2px;
-    }
-}
-@media all and (min-width: 431px) and (max-width: 768px) {
-    .main {
-        grid-template-rows: repeat(2, auto) !important;
-        grid-template-columns: repeat(2, auto) !important;
-        .item {
-            .img-area {
-                height: 200px !important;
-            }
-        }
-    }
-}
-@media all and (max-width: 430px) {
-    .main {
-        grid-template-rows: repeat(1, auto) !important;
-        grid-template-columns: repeat(1, auto) !important;
-        .item {
-            .img-area {
-                height: 210px !important;
-            }
         }
     }
 }

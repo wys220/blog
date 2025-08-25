@@ -3,32 +3,41 @@
     <Astral v-if="isDarkTheme"></Astral>
     <div :class="['bg',{'dark-bg':isDarkTheme}]"
          :style="{'--bgUrl':`url(${currentBgUrl})`}"></div>
-    <div class="container text-center">
+    <div class="container">
         <Header :currentScrollTop="currentScrollTop"
                 :isUpScroll="isUpScroll">
         </Header>
-        <main class="main padding-tb40 padding-lr25"
-              id="main">
-            <div class="main-area pr margin-r20"
+        <main class="main-area padding-tb40 padding-lr25"
+              id="main-area"
+              data-expanded="true">
+            <div class="main-inner f1 pr ofa padding-b20"
+                 id="main-inner"
                  ref="fullScreenRef">
                 <g-icons v-if="isShowBack"
-                         iconName="icon-fanghui"
+                         iconName="icon-fanhui"
                          className="back"
-                         size="20"
+                         size="25"
                          @click="$router.go(-1)">
                 </g-icons>
-                <g-icons :iconName="isFullscreen ? 'icon-shouqiquanping' : 'icon-quanpingzhankai'"
+                <g-icons :iconName="isFullscreen ? 'icon-shouqiquanping' : 'icon-quanping'"
                          className="full-screen"
-                         size="25"
+                         size="23"
                          @click="toggleFullscreen($refs.fullScreenRef)">
                 </g-icons>
                 <router-view />
+                <div class="box-arrow pa cp"
+                     @click="handleSidebar()">
+                    <g-icons iconName="icon-lanmu1"
+                             className="icon-zuoyou"
+                             size="20">
+                    </g-icons>
+                </div>
             </div>
-            <div class="f1">
+            <div class="sidebar-box">
                 <Sidebar></Sidebar>
             </div>
         </main>
-        <footer class="footer">@copyright 20240501 吾顺日记</footer>
+        <footer class="footer t-center">@copyright 20240501 吾顺日记</footer>
     </div>
     <!-- 工具栏 -->
     <Tools :currentScrollTop="currentScrollTop"></Tools>
@@ -72,7 +81,17 @@ const doScroll = () => {
         isUpScroll.value = true
     } else {
         isUpScroll.value = false
+    }
+}
 
+const handleSidebar = (falg = true) => {
+    let con = document.querySelector(".main-area")
+    let isExpanded = sessionStorage.getItem("isExpanded") ? sessionStorage.getItem("isExpanded") === 'true' : true
+    if (!falg) {
+        con.dataset.expanded = isExpanded
+    } else {
+        sessionStorage.setItem('isExpanded', !isExpanded)
+        con.dataset.expanded = !isExpanded
     }
 }
 
@@ -87,6 +106,7 @@ watch(() => route, (v) => {
 }, { deep: true })
 
 onMounted(() => {
+    handleSidebar(false)
     window.addEventListener('scroll', doScroll)
 })
 onBeforeMount(() => {
@@ -119,23 +139,22 @@ onBeforeMount(() => {
     z-index: -1;
 }
 .container {
-    .main {
+    .main-area {
         display: flex;
         width: 100%;
-        max-width: 1200px;
+        max-width: 1250px;
         // min-height: 50vh;
         background: transparent !important;
         margin: 0 auto;
-        .main-area {
-            width: 75%;
+        .main-inner {
             background: var(--bg-color);
             color: var(--text-color);
-            padding: 40px 10px 10px 10px;
+            padding: 40px 30px 10px 10px;
             border-radius: 8px;
             .full-screen {
                 position: absolute;
-                right: 10px;
-                top: 10px;
+                right: 30px;
+                top: 11px;
                 cursor: pointer;
             }
             .back {
@@ -144,7 +163,28 @@ onBeforeMount(() => {
                 top: 10px;
                 cursor: pointer;
             }
+            .box-arrow {
+                top: 0;
+                right: 0;
+                height: 100%;
+                width: 20px;
+                background-color: transparent;
+                &:hover {
+                    background-color: var(--bg-color);
+                }
+                .icon-zuoyou {
+                    top: 10px;
+                    right: 0;
+                }
+            }
         }
+        .sidebar-box {
+            width: 0;
+            transition: all 0.3s;
+        }
+    }
+    .main-area[data-expanded="true"] .sidebar-box {
+        width: 250px;
     }
     .footer {
         width: 100%;

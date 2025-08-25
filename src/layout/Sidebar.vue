@@ -36,7 +36,7 @@
             </div>
         </div>
         <!-- 人生倒计时 -->
-        <div class="siderbar-sty sider-item1 text-left font16">
+        <div class="siderbar-sty sider-item1 t-left font16">
             <div class="title-bar padding-tb10 padding-l10">
                 <g-svg-icon name="countdown"
                             size="18">
@@ -74,7 +74,7 @@
             </div>
         </div>
         <!-- 人生倒计时 -->
-        <div class="siderbar-sty sider-item2 text-left font16">
+        <div class="siderbar-sty sider-item2 t-left font16">
             <div class="title-bar padding-tb10 padding-l10">
                 <g-svg-icon name="tag"
                             size="18">
@@ -127,8 +127,13 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+.main-area[data-expanded="true"] .siderbar {
+    display: block;
+    margin-left: 20px;
+}
 .siderbar {
     background: transparent;
+    display: none;
     .siderbar-sty {
         background: var(--bg-color);
         color: var(--text-color);

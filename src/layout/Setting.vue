@@ -6,7 +6,7 @@
                class="setting-box-drawer">
         <div class="flex-s h100 ofh">
             <div class="left h100 ofa padding-tb10 font14 padding-r5">
-                <div class="item cp text-center padding10"
+                <div class="item cp t-center padding10"
                      :class="{'item-active': currentItem?.key == item.key}"
                      v-for="(item,index) in sideList"
                      :key="index"
