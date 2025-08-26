@@ -3,30 +3,23 @@
     <div class="siderbar">
         <div class="siderbar-sty sider-item flex-col-c">
             <div class="avatar">
-                <img :src="logoUrl"
+                <img :src="userAvatar"
                      alt=""
                      srcset="">
             </div>
             <div class="name font20 fontw margin-tb8">吾小顺</div>
-            <div class="motto font16">运气是计划之外的东西</div>
+            <div class="motto t-center font16">理想的人生一定是靠拼来的<br />许愿到不了</div>
             <div class="tools margin-t20 flex-sa font16">
                 <div class="flex-col-c item">
                     <div>文章</div>
-                    <div>999</div>
+                    <div>{{ blogListLen }}</div>
                 </div>
                 <div class="flex-col-c item">
                     <div>工具</div>
-                    <div>999</div>
-                </div>
-                <div class="flex-col-c item">
-                    <div>游戏</div>
-                    <div>999</div>
+                    <div>{{ toolLen }}</div>
                 </div>
             </div>
             <div class="tools margin-t20 flex-sa font16">
-                <div class="flex-col-c item">
-                    微信
-                </div>
                 <div class="flex-col-c item">
                     QQ
                 </div>
@@ -89,10 +82,18 @@
 </template>
 
 <script setup>
-import { onMounted, ref, getCurrentInstance } from "vue";
-import logoUrl from "@/assets/images/bg.jpeg"
+import { onMounted, ref, getCurrentInstance, computed } from "vue";
+import userAvatar from "@/assets/images/user_avatar.png"
+import store from "@/store"
 
 const { proxy } = getCurrentInstance();
+
+//获取缓存里面的全部博客
+const blogListLen = computed(() => store.state.sites?.blogList?.length || 0)
+//获取缓存里面的所有工具
+const toolLen = computed(() => {
+    return store.state.sites?.allTools?.data?.reduce((pre, cur) => pre += cur?.list?.length, 0)
+})
 
 let nowHours = ref(0)
 let nowMinutes = ref(0)

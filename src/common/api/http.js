@@ -8,7 +8,14 @@ axios.defaults.headers["Content-Type"] = "application/json-patch+json";
 
 //请求拦截器
 axios.interceptors.request.use(
-    config => { return config },
+    config => {
+        try {
+            config.headers["Access-Control-Allow-Origin"] = `*`
+            return config
+        } catch (error) {
+            return config
+        }
+    },
     error => { return Promise.reject(error) }
 )
 

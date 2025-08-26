@@ -45,9 +45,10 @@ import router from "@/router";
 
 const { proxy } = getCurrentInstance();
 
+//获取缓存里面的全部博客
 const blogList = computed(() => {
     return store.state.sites?.blogList?.filter((f) => f?.hot)
-}) //获取缓存里面的全部博客
+}) 
 
 // console.log(blogList.value, 'blogList');
 
