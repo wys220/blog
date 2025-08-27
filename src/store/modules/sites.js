@@ -1,8 +1,5 @@
 // 站点数据vuex modules
-import {
-    getAllSitesToolsAPI,
-    getAllBlogMdListAPI
-} from "@c/api/gitee.js"
+import { giteeApi } from '@c/api/giteeApi';
 
 const state = {
     allTools: null, //全部工具列表
@@ -33,7 +30,7 @@ const actions = {
     // 获取所有工具类数据
     async getAllSitesTools({ state, rootState, commit, dispatch }) {
         try {
-            const response = await getAllSitesToolsAPI();
+            const response = await giteeApi.getJsonFile('sites/tools.json')
             commit('SET_ALL_TOOL', response)
         } catch {
             commit('SET_ALL_TOOL', null)
@@ -43,7 +40,7 @@ const actions = {
     // 获取所有工具类数据
     async getAllBlogMdList({ state, rootState, commit, dispatch }) {
         try {
-            const response = await getAllBlogMdListAPI();
+            const response = await giteeApi.getJsonFile('sites/blog.json')
             let blogList = response?.data?.reduce((pre, cur) => {
                 let list = cur?.list
                 return [...pre, ...list]

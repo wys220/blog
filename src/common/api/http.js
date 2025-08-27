@@ -10,7 +10,7 @@ axios.defaults.headers["Content-Type"] = "application/json-patch+json";
 axios.interceptors.request.use(
     config => {
         try {
-            // config.headers["Access-Control-Allow-Origin"] = `*`
+            config.headers["access_token"] = `72e850e91b9112b0aa6cf5aacce7523d`
             return config
         } catch (error) {
             return config
@@ -22,6 +22,7 @@ axios.interceptors.request.use(
 // 响应拦截器，内部根据返回值，重新组装，统一管理。
 axios.interceptors.response.use(
     res => {
+        // console.log(res,'res9000');
         if (res.status == 200) {
             // console.log(res, 'resres');
             if (res.request.responseType == "arraybuffer") {

@@ -38,7 +38,8 @@ import DOMPurify from 'dompurify'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/vs2015.css';
 import Clipboard from 'clipboard'
-import { getBlogMdDetailsAPI } from '@c/api/gitee'
+
+import { giteeApi } from '@c/api/giteeApi';
 
 
 const props = defineProps({
@@ -109,7 +110,7 @@ const fetchMarkdown = async () => {
     loading.value = true
     error.value = ''
     try {
-        const res = await getBlogMdDetailsAPI(props.rawUrl)
+        const res = await giteeApi.getMarkdownFile(props.rawUrl)
         content.value = res
         // console.log(content.value, '获取 Markdown 内容');
     } catch (err) {
