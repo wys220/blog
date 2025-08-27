@@ -10,7 +10,7 @@ axios.defaults.headers["Content-Type"] = "application/json-patch+json";
 axios.interceptors.request.use(
     config => {
         try {
-            config.headers["Access-Control-Allow-Origin"] = `*`
+            // config.headers["Access-Control-Allow-Origin"] = `*`
             return config
         } catch (error) {
             return config

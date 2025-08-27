@@ -92,7 +92,7 @@ const { proxy } = getCurrentInstance();
 const blogListLen = computed(() => store.state.sites?.blogList?.length || 0)
 //获取缓存里面的所有工具
 const toolLen = computed(() => {
-    return store.state.sites?.allTools?.data?.reduce((pre, cur) => pre += cur?.list?.length, 0)
+    return store.state.sites?.allTools?.data?.reduce((pre, cur) => pre += cur?.list?.length, 0) || 0
 })
 
 let nowHours = ref(0)
