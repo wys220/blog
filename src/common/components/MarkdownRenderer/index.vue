@@ -16,9 +16,12 @@
                 日期：{{ blogInfo?.date }}
             </div>
         </div>
-        <div class="markdown-body"
-             v-if="content">
-            <div v-html="renderedContent"></div>
+        <div v-if="content"
+             class="markdown-renderer">
+            <div class="preview-container">
+                <div class="markdown-preview"
+                     v-html="renderedMarkdown"></div>
+            </div>
         </div>
         <div v-else-if="loading"
              class="loading-container">
@@ -37,7 +40,6 @@ import { marked } from 'marked'
 import DOMPurify from 'dompurify'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/vs2015.css';
-import Clipboard from 'clipboard'
 
 import { giteeApi } from '@c/api/giteeApi';
 
@@ -52,6 +54,14 @@ const props = defineProps({
         type: String,
         required: true
     },
+    showLineNumbers: {
+        type: Boolean,
+        default: true,
+    },
+    showCopyButton: {
+        type: Boolean,
+        default: true,
+    },
 })
 
 const { proxy } = getCurrentInstance();
@@ -60,49 +70,120 @@ const content = ref('')
 const loading = ref(false)
 const error = ref('')
 
+// 全局仅配置一次marked
+marked.setOptions({
+    highlight: function (code, lang) {
+        if (lang && hljs.getLanguage(lang)) {
+            return hljs.highlight(code, { language: lang }).value;
+        }
+        return hljs.highlightAuto(code).value;
+    },
+    breaks: true,
+    gfm: true
+});
 
-// 渲染后的内容
-const renderedContent = computed(() => {
-    if (!content.value) return ''
-    // 使用 DOMPurify 清理 HTML 防止 XSS
-    return DOMPurify.sanitize(renderMarkdown(content.value))
-})
+// 配置marked解析器
+const renderedMarkdown = computed(() => {
+    const rawHtml = content.value ? marked.parse(content.value) : '';
+    const sanitizedHtml = DOMPurify.sanitize(rawHtml);
+    return addLineNumbersAndCopyButtons(sanitizedHtml);
+});
 
-/**
-* 使用 marked 解析 Markdown
-* @param markdown 解析的文本
-*/
-const renderMarkdown = (markdown) => {
-    const renderer = new marked.Renderer()
-    // 自定义代码块的渲染逻辑
-    renderer.code = ({ text, lang, escaped }) => {
-        const language = hljs.getLanguage(lang) ? lang : 'plaintext'
-        const highlighted = hljs.highlight(text, { language }).value
+// 初始化：全局事件委托（解决动态按钮点击无效问题）
+// 放在组件挂载时执行（如onMounted钩子），仅执行一次
+function initCopyEventDelegate() {
+    // 监听整个文档的点击事件，委托给复制按钮
+    document.addEventListener('click', (e) => {
+        const copyButton = e.target.closest('.copy-button');
+        if (!copyButton) return; // 不是复制按钮则退出
 
-        // 生成唯一标识
-        const codeIndex = parseInt(Date.now() + '') + Math.floor(Math.random() * 10000000)
+        // 获取代码块ID并执行复制逻辑
+        const codeId = copyButton.dataset.codeId;
+        const codeElement = document.getElementById(codeId);
+        if (!codeElement) return;
 
-        // 添加复制按钮
-        const copyButton = `
-                    <div class="codeblockheader">
-                    <div>${language}</div>
-                    <div id="copy-btn" data-clipboard-action="copy" data-clipboard-target="#copy${codeIndex}">复制</div>
-                    </div>
-                `
+        copyToClipboard(codeElement.textContent, copyButton);
+    });
+}
 
-        // 生成代码块和隐藏的 textarea 用于复制
-        return `${copyButton}
-                <pre class="hljs">
-                <code>${highlighted}</code>
-                </pre>
-                <textarea style="position: absolute; top: -9999px; left: -9999px; z-index: -9999;" id="copy${codeIndex}">${text.replace(
-            /<\/textarea>/g,
-            '&lt;/textarea>'
-        )}
-        </textarea>`
-    }
+// 复制逻辑抽离：单独函数，便于维护和复用
+function copyToClipboard(text, button) {
+    // 处理剪贴板API异常
+    navigator.clipboard.writeText(text)
+        .then(() => {
+            const originalHtml = button.innerHTML;
+            const language = button.dataset.language; // 从data属性获取语言，避免DOM查询
+            // 显示复制成功状态
+            button.innerHTML = `<i class="fas fa-check"></i>${language} 复制成功`;
+            button.classList.add('copied');
+            // 2秒后恢复原状态
+            setTimeout(() => {
+                button.innerHTML = originalHtml;
+                button.classList.remove('copied');
+            }, 2000);
+        })
+        .catch((err) => {
+            console.error('复制失败：', err);
+        });
+}
+// 为代码块添加行号和复制按钮
+function addLineNumbersAndCopyButtons(html) {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = html;
 
-    return marked(markdown, { renderer })
+    // 1. 处理超链接：所有<a>标签添加target="_blank"和安全rel属性
+    const links = tempDiv.querySelectorAll('a');
+    links.forEach(link => {
+        // 仅对外部链接或非本页锚点生效（可根据需求调整）
+        const isExternal = !link.href.startsWith(window.location.origin);
+        if (isExternal || !link.hash) {
+            link.setAttribute('target', '_blank');
+            link.setAttribute('rel', 'noopener noreferrer');
+        }
+    });
+
+    // 2. 处理代码块（行号 + 复制按钮）
+    const codeBlocks = tempDiv.querySelectorAll('pre code');
+    codeBlocks.forEach((codeBlock, index) => {
+        const pre = codeBlock.parentElement;
+        // 提取语言类型（如"language-js" → "js"）
+        const language = codeBlock.className.match(/language-(\w+)/)?.[1] || 'code';
+        const codeContent = codeBlock.textContent;
+        // 生成唯一ID（避免重复）
+        const uniqueCodeId = `code-block-${Date.now()}-${index}`;
+
+        // 创建行号容器
+        const lineNumbers = document.createElement('div');
+        lineNumbers.className = 'line-numbers';
+        // 根据代码行数生成行号（排除最后一个空行）
+        const lineCount = codeContent.split('\n').length;
+        for (let i = 1; i <= lineCount - 1; i++) {
+            const line = document.createElement('div');
+            line.textContent = i;
+            lineNumbers.appendChild(line);
+        }
+
+        // 创建复制按钮（存储唯一ID和语言）
+        const copyButton = document.createElement('button');
+        copyButton.className = 'copy-button';
+        copyButton.innerHTML = `<i class="fas fa-copy"></i>${language} 复制代码`;
+        copyButton.dataset.codeId = uniqueCodeId;
+        copyButton.dataset.language = language;
+
+        // 创建代码块主容器
+        const codeContainer = document.createElement('div');
+        codeContainer.className = 'code-container';
+
+        // 重组DOM结构
+        codeBlock.id = uniqueCodeId; // 给代码块设唯一ID
+        pre.className = 'code-pre'; // 给pre加类名便于样式控制
+        pre.parentNode.replaceChild(codeContainer, pre);
+        codeContainer.appendChild(copyButton);
+        codeContainer.appendChild(lineNumbers);
+        codeContainer.appendChild(pre);
+    });
+
+    return tempDiv.innerHTML;
 }
 
 // 获取 Markdown 内容
@@ -122,33 +203,17 @@ const fetchMarkdown = async () => {
     }
 }
 
-
-const clipboard = new Clipboard('#copy-btn')
-// 复制成功失败的提示
-clipboard.on('success', (e) => {
-    console.log('复制成功')
-    proxy.$toast.success('复制成功')
-})
-clipboard.on('error', (e) => {
-    console.log('复制失败')
-    clipboard.destroy()
-})
 // 监听 rawUrl 变化
 watch(() => props.rawUrl, fetchMarkdown)
 
 // 初始化时加载
-onMounted(fetchMarkdown)
-onUnmounted(() => {
-    // 清理事件监听器
-    if (window.clipboardInitialized) {
-        window.clipboardInitialized = false
-        // 假设 clipboard 实例可以被全局访问
-        clipboard.destroy()
-    }
+onMounted(() => {
+    fetchMarkdown()
+    initCopyEventDelegate();
 })
 </script>
   
-<style scoped>
+<style lang="scss">
 .markdown-viewer {
     background: #f1f1f1;
     padding: 10px;
@@ -185,69 +250,156 @@ onUnmounted(() => {
     background-color: #ffebeb;
     border-radius: 0 0 6px 6px;
 }
-</style>
-<style>
-.codeblockheader {
-    display: flex;
-    justify-content: space-between;
-    line-height: 20px;
-    padding: 8px 10px;
-    background: #282c34;
-    border-radius: 5px 5px 0 0;
-    color: #fff;
-    cursor: pointer;
-    font-size: 15px;
-    border-bottom: 1px solid #666666;
+.markdown-renderer {
+    box-sizing: border-box;
+    background: #f1f1f1;
 }
-/* 可以添加一些自定义样式 */
-.markdown-body {
+
+.markdown-preview {
+    overflow-y: auto;
+    box-sizing: border-box;
+    background: #f1f1f1;
+    padding: 10px;
+}
+
+/* 代码块样式 */
+.code-container {
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 16px 0;
+    display: flex;
+}
+
+pre {
+    position: relative;
+    padding: 35px 8px 10px 8px;
+    overflow-x: auto;
+    background-color: #2d2d2d;
+    color: #ccc;
+    font-family: "Consolas", "Monaco", monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+    width: 100%;
+}
+
+code {
+    background-color: transparent !important;
+    padding: 0 !important;
+    font-size: 15px !important;
+}
+
+/* 行号样式 */
+.line-numbers {
+    height: 100%;
+    padding: 35px 8px 10px 8px;
+    background-color: #3a3a3a;
+    color: #ccccc2;
+    font-family: "Consolas", "Monaco", monospace;
+    font-size: 15px;
+    line-height: 1.5;
+    text-align: right;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+/* 复制按钮样式 */
+.copy-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 4px 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s;
+    z-index: 99;
+}
+
+.copy-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.copy-button.copied {
+    background-color: #4caf50;
+}
+
+.copy-button i {
+    font-size: 12px;
+}
+
+/* Markdown 基础样式 */
+.markdown-preview h1,
+.markdown-preview h2,
+.markdown-preview h3,
+.markdown-preview h4,
+.markdown-preview h5,
+.markdown-preview h6 {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    font-weight: 600;
+}
+
+.markdown-preview p {
+    margin: 1em 0;
     line-height: 1.6;
 }
 
-/* 确保代码块有适当的边距和样式 */
-.markdown-body pre {
-    margin: 0; /* 移除默认的外边距 */
-    padding: 5px 10px; /* 移除默认的内边距 */
-    overflow-x: auto; /* 确保长代码可以滚动 */
-    white-space: pre-wrap; /* 保留换行但允许自动换行 */
-    word-wrap: break-word; /* 允许长单词换行 */
-    background-color: #282c34;
-    border-radius: 0 0 4px 4px;
+.markdown-preview ul,
+.markdown-preview ol {
+    margin: 1em 0;
+    padding-left: 2em;
 }
 
-.markdown-body code {
-    padding: 0.2em 0.4em;
-    margin: 0;
-    font-size: 85%;
-    background-color: #1b1f230d;
-    border-radius: 3px;
+.markdown-preview ul {
+    list-style-type: disc;
 }
 
-.markdown-body pre code {
-    padding: 0;
-    background-color: transparent;
+.markdown-preview ol {
+    list-style-type: decimal;
 }
-.markdown-body table {
-    width: 100%;
+
+.markdown-preview li {
+    margin: 0.5em 0;
+}
+
+.markdown-preview a {
+    color: #2196f3;
+    text-decoration: none;
+}
+
+.markdown-preview a:hover {
+    text-decoration: underline;
+}
+
+.markdown-preview blockquote {
+    border-left: 4px solid #ddd;
+    padding-left: 1em;
+    margin: 1em 0;
+    color: #666;
+}
+
+.markdown-preview table {
     border-collapse: collapse;
-    /* 让表格边框合并 */
-    box-shadow: 2px 2px 10px #00000033;
-    /* 添加表格阴影 */
-    margin: 10px 0;
+    width: 100%;
+    margin: 1em 0;
 }
 
-.markdown-body th,
-.markdown-body td {
-    border: 1px solid #ddd;
-    /* 添加边框 */
-    padding: 8px;
+.markdown-preview th,
+.markdown-preview td {
+    border: 1px solid #e1e1e1;
+    padding: 5px 9px;
     text-align: left;
-    background-color: #f4f4f4;
 }
 
-.markdown-body th {
-    background-color: #ededed;
-    /* 表头背景色 */
-    font-weight: bold;
+.markdown-preview th {
+    background-color: #e6e6e6;
 }
 </style>

@@ -9,7 +9,7 @@
         <div class="pa w100 t-center info-group padding40">
             <h1 style='font-family: "仓耳渔阳体 W02"'>吾顺博客</h1>
             <div class="margin-t10">
-                <TypeWriter text="席卷英豪天下来，千古化境一念同。"
+                <TypeWriter :text="text"
                             :typing-speed="150"
                             :deleting-speed="50"
                             :pause-duration="3000"
@@ -49,6 +49,7 @@ const { theme } = useTheme()
 
 let isDarkTheme = computed(() => theme.value === 'dark')
 const isHome = ref(true)
+let text = "生活，有所为，有所爱，有所期待！"
 
 // 跳转置顶id位置
 const jump = (id) => {

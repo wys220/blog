@@ -10,7 +10,6 @@ axios.defaults.headers["Content-Type"] = "application/json-patch+json";
 axios.interceptors.request.use(
     config => {
         try {
-            config.headers["access_token"] = `72e850e91b9112b0aa6cf5aacce7523d`
             return config
         } catch (error) {
             return config
