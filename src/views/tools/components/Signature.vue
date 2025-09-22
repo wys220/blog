@@ -95,7 +95,6 @@ const initCanvas = () => {
     })
     canvas.addEventListener('mousemove', e => {
         if (!isMousedown) return
-        // console.log(e, 'eeeeeeee--mousemove');
         lastPt = {
             x: e.offsetX,
             y: e.offsetY
@@ -135,11 +134,9 @@ const now = dayjs()
 // 保存
 const onSave = async (type) => {
     let time = now.format('YYYY-MM-DD HH:mm:ss')
-    console.log(time, 'time');
     let cont = converBase64ToBlob(canvas.toDataURL('image/png'))
     if (type === 1) {
         signatureUrl.value = URL.createObjectURL(cont)
-        // console.log(signatureUrl.value, 'signatureUrl.value');
     } else if (type === 2) {
         if (window.showSaveFilePicker) {
             const handle = await window.showSaveFilePicker({
@@ -161,7 +158,6 @@ const onSave = async (type) => {
             const a = document.createElement('a')
             a.download = `signature-${time}.png`
             a.href = URL.createObjectURL(cont)
-            console.log(102, a.href)
             a.click()
             URL.revokeObjectURL(a.href)
         }

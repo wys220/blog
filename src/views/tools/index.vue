@@ -51,7 +51,6 @@ const typeList = ref([
 ]);
 // 选择类型
 const selectType = (item) => {
-    // console.log(val, '工具类型val');
     // router.push(`/tools/details/${val?.type}`)
 };
 

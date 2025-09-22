@@ -1,7 +1,8 @@
 //引入elementui plus组件
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
-import ElementPlus from 'element-plus';
-import 'element-plus/dist/index.css';
+
+// 引入element-plus组件
+import ElementPlus from './elementPlus.js';
 
 //引入自定义公共组件
 import global from '@c/global/global.js';
@@ -55,8 +56,12 @@ export default class InitWeb {
         this.app.mount("#app")
         this.app.config.globalProperties.$fn = GlobalFn
 
+
         // 获取全部背景图
         store.dispatch('app/getAllBgImages')
+
+        // 获取用户信息
+        store.dispatch('sites/getUserInfo')
         // 获取全部工具数据
         store.dispatch('sites/getAllSitesTools')
         // 获取全部博客数据

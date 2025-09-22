@@ -87,7 +87,7 @@ const getTypeConfig = (type) => {
 const createToastElement = (options, id) => {
     const type = options.type || 'info'
     const { className, icon } = getTypeConfig(type)
-    const position = options.position || 'top'
+    const position = options.position || 'top-right'
 
     // 创建容器
     const toast = document.createElement('div')

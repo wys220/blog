@@ -21,9 +21,7 @@ axios.interceptors.request.use(
 // 响应拦截器，内部根据返回值，重新组装，统一管理。
 axios.interceptors.response.use(
     res => {
-        // console.log(res,'res9000');
         if (res.status == 200) {
-            // console.log(res, 'resres');
             if (res.request.responseType == "arraybuffer") {
                 return res
             } else {

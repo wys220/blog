@@ -20,7 +20,4 @@ import AppMain from "@/layout/AppMain"
 body {
     background: rgba(0, 0, 0, 0.1);
 }
-.el-overlay {
-    background-color: transparent !important;
-}
 </style>

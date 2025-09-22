@@ -1,15 +1,20 @@
 <!-- 页面头部 -->
 <template>
-    <header :class="['header','pr',{'header-light':!isDarkTheme}]"
+    <header :class="['header','pr','flex',{'header-light':!isDarkTheme}]"
             :style="{'--hieght':isHome?'100vh':'50vh'}">
         <Nav v-if="currentScrollTop === 0 || isUpScroll"
              :currentScrollTop="currentScrollTop"
              :isUpScroll="isUpScroll">
         </Nav>
-        <div class="pa w100 t-center info-group padding40">
-            <h1 style='font-family: "仓耳渔阳体 W02"'>吾顺博客</h1>
+        <div class="pa w100 t-center info-group padding40 flex-col-c">
+            <div class="avatar">
+                <img :src="userAvatar"
+                     alt=""
+                     srcset="">
+            </div>
             <div class="margin-t10">
-                <TypeWriter :text="text"
+                <TypeWriter :text="userInfo?.motto || defaultText"
+                            fontSize="22px"
                             :typing-speed="150"
                             :deleting-speed="50"
                             :pause-duration="3000"
@@ -17,7 +22,7 @@
             </div>
         </div>
         <div class="more pa w100 font30 t-center">
-            <g-icons @click="jump('main-area')"
+            <g-icons @click="jumpElement()"
                      iconName="icon-zhidi"
                      className="cp"
                      size="30">
@@ -29,11 +34,12 @@
 <script setup>
 import { computed, watch, ref } from 'vue'
 import Nav from './Nav.vue'
-import Search from './Search.vue'
+import userAvatar from "@/assets/images/user_avatar.png"
 import { useTheme } from '../common/hooks/useTheme.js'
 import router from "@/router";
 import store from "@/store"
 import TypeWriter from "@c/components/TypeWriter"
+import { jumpElement } from "@c/tools/common"
 
 const props = defineProps({
     currentScrollTop: {
@@ -48,16 +54,13 @@ const props = defineProps({
 const { theme } = useTheme()
 
 let isDarkTheme = computed(() => theme.value === 'dark')
-const isHome = ref(true)
-let text = "生活，有所为，有所爱，有所期待！"
 
-// 跳转置顶id位置
-const jump = (id) => {
-    document.querySelector(`#${id}`).scrollIntoView({ behavior: "smooth" })
-}
+const userInfo = computed(() => store.state.app?.userInfo) // 用户信息
+
+const isHome = ref(true)
+let defaultText = "生活，有所为，有所爱，有所期待！"
 
 watch(() => router.currentRoute.value.path, (newValue, oldValue) => {
-    // console.log('watch', newValue);
     if (['/', '/home'].includes(newValue)) {
         isHome.value = true
     } else {
@@ -80,8 +83,17 @@ watch(() => router.currentRoute.value.path, (newValue, oldValue) => {
         color: #fff;
     }
     .info-group {
-        top: 40%;
         color: #fff;
+        .avatar {
+            width: 80px;
+            height: 80px;
+            img {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                border: 1px solid var(--text-color);
+            }
+        }
     }
     .more {
         bottom: 3px;

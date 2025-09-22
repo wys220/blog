@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import { getCurrentInstance, ref, computed } from "vue"
+import { getCurrentInstance, ref, computed, onMounted } from "vue"
 import Pagination from "@c/components/Pagination"
 import store from "@/store"
 import router from "@/router";
@@ -48,13 +48,11 @@ const { proxy } = getCurrentInstance();
 //获取缓存里面的全部博客
 const blogList = computed(() => {
     return store.state.sites?.blogList?.filter((f) => f?.hot)
-}) 
-
-// console.log(blogList.value, 'blogList');
+})
 
 // 分页状态
-const currentPage = ref(1);
-const pageSize = ref(5);
+const currentPage = ref(Number(sessionStorage.getItem('homeIndexPage')) || 1);
+const pageSize = ref(10);
 const totalItems = computed(() => blogList.value?.length);
 
 // 计算当前页数据
@@ -67,12 +65,19 @@ const paginatedData = computed(() => {
 // 处理页码变化
 const handlePageChange = (page) => {
     currentPage.value = page;
+    sessionStorage.setItem('homeIndexPage', page)
 };
 
 // 详情
 const goDetail = (item) => {
-    router.push(`/home/details/${item?.name}`)
+    router.push(`/blog/details/${item?.name}`)
 }
+
+onMounted(() => {
+    setTimeout(() => {
+        sessionStorage.removeItem('homeIndexPage')
+    }, 500)
+})
 </script>
 
 <style lang="scss" scoped>
@@ -85,10 +90,6 @@ const goDetail = (item) => {
         position: relative;
         transition: all 0.3s;
         top: 0;
-        // &:hover {
-        //     top: -2px;
-        //     box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.05);
-        // }
         .content {
             .title {
                 &:hover {

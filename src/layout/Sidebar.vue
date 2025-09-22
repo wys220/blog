@@ -7,34 +7,45 @@
                      alt=""
                      srcset="">
             </div>
-            <div class="name font20 fontw margin-tb8">吾小顺</div>
+            <div class="name font20 fontw margin-tb8">{{userInfo?.author || '吾小顺'}}</div>
             <div class="motto t-center font16">理想的人生一定是靠拼来的<br />许愿到不了</div>
             <div class="tools margin-t20 flex-sa font16">
                 <div class="flex-col-c item">
-                    <div>文章</div>
-                    <div>{{ blogListLen }}</div>
+                    <div class="fontw"><g-icons iconName="icon-faxian"
+                                 size="20"></g-icons>文章</div>
+                    <div class="fontw cp"
+                         @click="goPage('blog')">{{ blogListLen }}</div>
                 </div>
                 <div class="flex-col-c item">
-                    <div>工具</div>
-                    <div>{{ toolLen }}</div>
+                    <div class="fontw"> <g-icons iconName="icon-gongjuxiang"
+                                 size="20"></g-icons>工具</div>
+                    <div class="fontw cp"
+                         @click="goPage('tools')">{{ toolLen }}</div>
                 </div>
             </div>
             <div class="tools margin-t20 flex-sa font16">
-                <div class="flex-col-c item">
-                    QQ
+                <div class="flex-col-c item cp"
+                     @click="sendEmail">
+                    <g-icons iconName="icon-QQyouxiang"
+                             size="25"></g-icons>QQ邮箱
                 </div>
-                <div class="flex-col-c item">
-                    邮箱
+                <div class="flex-col-c item cp"
+                     @click="goGitee">
+                    <g-icons iconName="icon-gitee"
+                             size="25"></g-icons>Gitee
+                </div>
+                <div class="flex-col-c item cp"
+                     @click="goGithub">
+                    <g-icons iconName="icon-github"
+                             size="25"></g-icons>Github
                 </div>
             </div>
         </div>
         <!-- 人生倒计时 -->
         <div class="siderbar-sty sider-item1 t-left font16">
             <div class="title-bar padding-tb10 padding-l10">
-                <g-svg-icon name="countdown"
-                            size="18">
-                </g-svg-icon>
-                人生倒计时
+                <g-icons iconName="icon-daojishi"
+                         size="16"></g-icons>人生倒计时
             </div>
             <div class="main padding10 w100">
                 <div class="margin-b5">今天已经过去{{ nowHours }}小时</div>
@@ -66,16 +77,16 @@
                 </div>
             </div>
         </div>
-        <!-- 人生倒计时 -->
+        <!-- 标签 -->
         <div class="siderbar-sty sider-item2 t-left font16">
             <div class="title-bar padding-tb10 padding-l10">
-                <g-svg-icon name="tag"
-                            size="18">
-                </g-svg-icon>
-                标签
+                <g-icons iconName="icon-biaoqian"
+                         size="18"></g-icons>标签
             </div>
-            <div class="padding20">
-                {{$store.state.common?.test}}
+            <div class="padding20 flex-s flex-w">
+                <span v-for="(el,index) in tagList"
+                      :key="index"
+                      class="tags">{{ el.name }}</span>
             </div>
         </div>
     </div>
@@ -85,8 +96,14 @@
 import { onMounted, ref, getCurrentInstance, computed } from "vue";
 import userAvatar from "@/assets/images/user_avatar.png"
 import store from "@/store"
+import { goPage } from "@c/tools/common"
 
 const { proxy } = getCurrentInstance();
+
+// 用户信息
+const userInfo = computed(() => store.state.app?.userInfo)
+// 获取tags
+const tagList = computed((() => store.state.app?.tags))
 
 //获取缓存里面的全部博客
 const blogListLen = computed(() => store.state.sites?.blogList?.length || 0)
@@ -121,7 +138,19 @@ const timeSlotChange = () => {
     nowMonths.value = nowMonth
     nowYears.value = nowYear
 }
-
+// 发送邮件
+const sendEmail = () => {
+    navigator.clipboard.writeText(userInfo.value?.email)
+        .then(() => {
+            proxy.$toast.success('复制邮箱成功')
+        })
+}
+const goGitee = () => {
+    window.open(userInfo.value?.gitee, '_blank')
+}
+const goGithub = () => {
+    window.open(userInfo.value?.github, '_blank')
+}
 onMounted(() => {
     timeSlotChange()
 })
@@ -140,6 +169,14 @@ onMounted(() => {
         color: var(--text-color);
         border-radius: 8px;
         margin-bottom: 20px;
+        .tags {
+            padding: 5px 10px;
+            background: $theme-color;
+            border-radius: 8px;
+            margin: 5px;
+            color: #fff;
+            text-align: center;
+        }
     }
     .title-bar {
         border-bottom: 1px solid var(--text-color);
@@ -178,6 +215,9 @@ onMounted(() => {
         :deep(.el-progress__text) {
             color: var(--text-color);
         }
+    }
+    svg {
+        margin-right: 2px;
     }
 }
 </style>

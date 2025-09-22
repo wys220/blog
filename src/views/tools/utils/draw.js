@@ -25,7 +25,6 @@ export function draw(cav, list, i, isCtxScope = true) {
     ctx.lineWidth = 2;
 
     isCtxCanvasScope = isCtxScope
-    console.log("是否在画布内作画:", { isCtxCanvasScope });
 
     // 变量初始化
     let sX = 0; // 鼠标X坐标
@@ -148,7 +147,6 @@ export function draw(cav, list, i, isCtxScope = true) {
 
     drawList.value = []
     drawList.value = list
-    console.log(drawList.value, 'drawListdrawList矩形列表900');
 
 }
 
@@ -379,7 +377,6 @@ function judgeDraw(cav, ctx, list, iem) {
 
     /* 按下鼠标左键 */
     cav.onmousedown = function (ed) {
-        // console.log("按下鼠标左键");
         sX = ed.offsetX;
         sY = ed.offsetY;
 

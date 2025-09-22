@@ -86,7 +86,6 @@ const netPage = () => {
 let detailsContent = ref(null)
 
 onMounted(() => {
-    // console.log(route, 'route');
     detailsContent.value = route.params
     params.type = route.params?.type
     getImageList();

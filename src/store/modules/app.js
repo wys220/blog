@@ -1,13 +1,32 @@
-import { projectDefaultConfig } from '@/config/defaultConfig'
+import { config } from '@/config'
 import defeultImageUrl from "@/assets/images/bg.jpeg"
 
 const state = {
-    projectConfig: { ...projectDefaultConfig },//默认项目配置
     bgIndex: sessionStorage.getItem('currentBgUrlIndex') ? JSON.parse(sessionStorage.getItem('currentBgUrlIndex')) : 1, //默认背景图索引
     bgLists: [], // 背景图列表
     currentBgUrl: '', // 当前图片url
     isAutoToggleBg: true, //是否自动更新背景图
     toggleBgTime: 5, // toggleBgTime 单位：分钟
+    userInfo: null, //用户信息
+    //tags标签
+    tags: [
+        {
+            id: '1',
+            name: 'vue3'
+        },
+        {
+            id: '2',
+            name: 'vuex'
+        },
+        {
+            id: '3',
+            name: 'javascript'
+        },
+        {
+            id: '4',
+            name: 'Element-Plus'
+        },
+    ]
 }
 const mutations = {
     // 设置当前背景图索引
@@ -30,6 +49,10 @@ const mutations = {
     SET_TOGGLE_BG_TIME(state, data) {
         state.toggleBgTime = data;
     },
+    // 设置用户信息
+    SET_USER_INFO(state, data) {
+        state.userInfo = { ...data, ...config };
+    },
 }
 
 const actions = {
@@ -44,7 +67,6 @@ const actions = {
     setBgUrl({ state, commit }) {
         let url = new URL(`../../assets/images/bg/${state.bgIndex}.jpg`, import.meta.url).href
         let currentUrl = url || defeultImageUrl
-        // console.log(currentUrl, 'currentUrl')
         commit('SET_CURRENT_BG_URL', currentUrl)
     },
     // 更新背景图

@@ -2,11 +2,6 @@
 <template>
     <div class="tools font25 padding5 pf">
         <div class="item"
-             @click="openSetting()">
-            <g-icons iconName="icon-shezhi"
-                     size="28"></g-icons>
-        </div>
-        <div class="item"
              @click="toggleTheme()">
             <g-svg-icon v-if="theme === 'light'"
                         name="nightIcon"
@@ -31,14 +26,12 @@
             </g-svg-icon>
         </div>
     </div>
-    <Setting ref="settingRef"></Setting>
 </template>
 
 <script setup>
 import { getCurrentInstance } from "vue"
 import { useTheme } from '../common/hooks/useTheme.js'
 import store from "@/store"
-import Setting from "./Setting.vue"
 
 const props = defineProps({
     currentScrollTop: {
@@ -61,10 +54,6 @@ const gotoTop = () => {
 // 刷新背景图
 const refreshBg = () => {
     store.dispatch('app/updateBgUrl')
-}
-// 打开设置
-const openSetting = () => {
-    proxy.$refs.settingRef?.open()
 }
 </script>
 

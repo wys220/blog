@@ -1,11 +1,13 @@
 import axios from 'axios';
 
 class GiteeApi {
+
     constructor(options = {}) {
-        this.owner = options.owner || 'wu_yongshun'; // 仓库所有者
-        this.repo = options.repo || 'wu_yongshun';   // 仓库名称
-        this.token = options.token || '0862e88096c4d431d2427172bba527fc'; // 个人访问令牌
-        this.baseURL = 'https://gitee.com/api/v5';
+        this.owner = options.owner || window.config?.owner || 'wu_yongshun'; // 仓库所有者
+        this.repo = options.repo || window.config?.repo || 'wu_yongshun';   // 仓库名称
+        this.branch = options.branch || window.config?.branch || 'master';
+        this.token = options.token || window.config?.token || '0862e88096c4d431d2427172bba527fc'; // 个人访问令牌
+        this.baseURL = options.baseURL || window.config?.baseURL || 'https://gitee.com/api/v5';
     }
 
     // 设置配置
@@ -14,11 +16,11 @@ class GiteeApi {
     }
 
     // 获取文件内容
-    async getFileContent(path, ref = 'master') {
+    async getFileContent(path) {
         try {
-            const url = `${this.baseURL}/repos/${this.owner}/${this.repo}/contents/${path}`;
+            const url = `${this.baseURL}/repos/${this.owner}/${this.repo}/contents${path}`;
             const params = {
-                ref,
+                ref: this.branch,
                 access_token: this.token
             };
 
@@ -43,8 +45,8 @@ class GiteeApi {
     }
 
     // 获取 JSON 文件
-    async getJsonFile(path, ref = 'master') {
-        const fileData = await this.getFileContent(path, ref);
+    async getJsonFile(path) {
+        const fileData = await this.getFileContent(path);
         try {
             return JSON.parse(fileData.content);
         } catch (parseError) {
@@ -53,19 +55,19 @@ class GiteeApi {
     }
 
     // 获取 Markdown 文件
-    async getMarkdownFile(path, ref = 'master') {
-        const fileData = await this.getFileContent(path, ref);
+    async getMarkdownFile(path) {
+        const fileData = await this.getFileContent(path);
         return fileData.content;
     }
 
-    
+
 
     // 获取目录下的文件列表
-    async getDirectoryContents(path = '', ref = 'master') {
+    async getDirectoryContents(path) {
         try {
             const url = `${this.baseURL}/repos/${this.owner}/${this.repo}/contents/${path}`;
             const params = {
-                ref,
+                ref: this.branch,
                 access_token: this.token
             };
 
@@ -90,9 +92,9 @@ class GiteeApi {
     }
 
     // 获取 raw 内容（备用方案）
-    async getRawContent(path, branch = 'master') {
+    async getRawContent(path) {
         try {
-            const url = `https://gitee.com/${this.owner}/${this.repo}/raw/${branch}/${path}`;
+            const url = `https://gitee.com/${this.owner}/${this.repo}/raw/${this.branch}/${path}`;
             const response = await axios.get(url);
             return response.data;
         } catch (error) {

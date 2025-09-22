@@ -16,7 +16,6 @@ const { proxy } = getCurrentInstance();
 const markList = ref([])
 
 watch(() => drawList.value, (v) => {
-    console.log(v, 'vvvv');
 }, { deep: true })
 
 /* 画布初始化 */
@@ -30,8 +29,6 @@ const initCanvas = () => {
         const h = contaiEl?.offsetHeight
 
         // const style = window.getComputedStyle(contaiEl);
-        // console.log('Width:', w);
-        // console.log('Height:', h);
 
 
         cav.width = w || '800';
@@ -70,7 +67,6 @@ const initCanvas = () => {
 onMounted(() => {
     initCanvas()
     window.addEventListener('resize', () => {
-        console.log('缩放123');
         setTimeout(() => {
             initCanvas()
         }, 200)

@@ -17,7 +17,7 @@
                          iconName="icon-fanhui"
                          className="back"
                          size="25"
-                         @click="$router.go(-1)">
+                         @click="backPage()">
                 </g-icons>
                 <g-icons :iconName="isFullscreen ? 'icon-shouqiquanping' : 'icon-quanping'"
                          className="full-screen"
@@ -26,10 +26,11 @@
                 </g-icons>
                 <router-view />
                 <div class="box-arrow pa cp"
+                     title="展开/收起"
                      @click="handleSidebar()">
                     <g-icons iconName="icon-lanmu1"
                              className="icon-zuoyou"
-                             size="20">
+                             size="22">
                     </g-icons>
                 </div>
             </div>
@@ -37,7 +38,7 @@
                 <Sidebar></Sidebar>
             </div>
         </main>
-        <footer class="footer t-center">@copyright 20240501 吾顺日记</footer>
+        <footer class="footer t-center">{{ userInfo?.copyright }}</footer>
     </div>
     <!-- 工具栏 -->
     <Tools :currentScrollTop="currentScrollTop"></Tools>
@@ -46,13 +47,14 @@
 </template>
 
 <script setup>
-import { computed, onBeforeMount, onMounted, ref, getCurrentInstance, watch } from 'vue'
+import { computed, onBeforeMount, onMounted, ref, getCurrentInstance, watch, nextTick } from 'vue'
 import { useTheme } from '../common/hooks/useTheme.js'
 import Astral from './Astral.vue'
 import Tools from './Tools.vue'
 import Header from './Header.vue'
 import Sidebar from './Sidebar.vue'
 import store from "@/store"
+import router from "@/router"
 
 import { useFullscreen } from "@c/tools/FullScreen.js"
 import { useRoute } from "vue-router";
@@ -67,7 +69,7 @@ const { theme } = useTheme()
 const currentBgUrl = computed(() => store.state.app.currentBgUrl)
 
 let isDarkTheme = computed(() => theme.value === 'dark')
-
+const userInfo = computed(() => store.state.app?.userInfo) // 用户信息
 let currentScrollTop = ref(0)
 let isUpScroll = ref(false)
 // 鼠标滚动事件
@@ -75,7 +77,6 @@ const doScroll = () => {
     let scroll = document.documentElement.scrollTop || document.body.scrollTop;
     let scrollStep = scroll - currentScrollTop.value;
     currentScrollTop.value = scroll
-    // console.log(currentScrollTop.value, 'currentScrollTop.value')
 
     if (scrollStep < 0) {
         isUpScroll.value = true
@@ -83,7 +84,11 @@ const doScroll = () => {
         isUpScroll.value = false
     }
 }
-
+// 返回
+const backPage = () => {
+    router.go(-1)
+}
+// 侧边栏展开收起
 const handleSidebar = (falg = true) => {
     let con = document.querySelector(".main-area")
     let isExpanded = sessionStorage.getItem("isExpanded") ? sessionStorage.getItem("isExpanded") === 'true' : true
@@ -139,6 +144,24 @@ onBeforeMount(() => {
     z-index: -1;
 }
 .container {
+    /* 当屏幕宽度小于等于 600px 时应用的样式 */
+    @media only screen and (max-width: 670px) {
+        .main-area {
+            flex-direction: column;
+
+            .box-arrow {
+                display: none;
+            }
+        }
+        .main-area[data-expanded="true"] .sidebar-box {
+            width: 100% !important;
+            margin-top: 20px;
+
+            .siderbar {
+                margin-left: 0;
+            }
+        }
+    }
     .main-area {
         display: flex;
         width: 100%;
@@ -167,13 +190,13 @@ onBeforeMount(() => {
                 top: 0;
                 right: 0;
                 height: 100%;
-                width: 20px;
+                width: 22px;
                 background-color: transparent;
                 &:hover {
                     background-color: var(--bg-color);
                 }
                 .icon-zuoyou {
-                    top: 10px;
+                    top: 11px;
                     right: 0;
                 }
             }
@@ -189,7 +212,7 @@ onBeforeMount(() => {
     .footer {
         width: 100%;
         height: 50px;
-        line-height: 50px;
+        line-height: 28px;
         background: transparent;
         color: #fff;
         margin: 0 auto;

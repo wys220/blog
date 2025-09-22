@@ -3,34 +3,35 @@
     <div class="nav pf w100 flex-sb padding-l10 padding-r10"
          :style="navStyleObj">
         <div class="font40 flex-s">
-            <div class="logo">
-                <img :src="currenLogoUrl"
+            <div class="logo-box cp"
+                 @click="goPage('home')">
+                <img :src="defaultLogo"
                      alt="logo"
                      srcset="" />
             </div>
             <div class="flex-s f1 menus margin-l20">
-                <div class="menus-item"
+                <div class="menus-item big-screen"
                      @click="goPage('home')">
                     <a href="javascript:void(0);">
                         <g-icons iconName="icon-shouye"
                                  size="20"></g-icons>首页
                     </a>
                 </div>
-                <div class="menus-item"
+                <div class="menus-item big-screen"
                      @click="goPage('blog')">
                     <a href="javascript:void(0);">
                         <g-icons iconName="icon-faxian"
                                  size="20"></g-icons>随记
                     </a>
                 </div>
-                <div class="menus-item"
+                <div class="menus-item big-screen"
                      @click="goPage('tools')">
                     <a href="javascript:void(0);">
                         <g-icons iconName="icon-gongjuxiang"
                                  size="20"></g-icons>工具
                     </a>
                 </div>
-                <div class="menus-item">
+                <div class="menus-item big-screen">
                     <a href="javascript:void(0);">
                         <g-icons iconName="icon-yule"
                                  size="20"></g-icons>娱乐
@@ -43,11 +44,38 @@
                         <li @click="goPage('video')"><g-icons iconName="icon-shipin"></g-icons>视频</li>
                     </ul>
                 </div>
-                <div class="menus-item">
+                <div class="menus-item big-screen">
                     <a href="javascript:void(0);">
-                        <g-icons iconName="icon-guanyu-active"
-                                 size="20"></g-icons>关于
+                        <g-icons iconName="icon-shezhi"
+                                 size="20"></g-icons>设置
+                        <el-icon class="icon">
+                            <ArrowDown />
+                        </el-icon>
                     </a>
+                    <ul class="ul">
+                        <li @click="goPage('about')"><g-icons iconName="icon-guanyu"></g-icons>关于</li>
+                        <li @click="goPage('bgImage')"><g-icons iconName="icon-bizhi"></g-icons>壁纸</li>
+                    </ul>
+                </div>
+
+                <!-- 简易版移动端 -->
+                <div class="menus-item small-screen">
+                    <a href="javascript:void(0);">
+                        <g-icons iconName="icon-lanmushezhi"
+                                 size="18"></g-icons>菜单
+                        <el-icon class="icon">
+                            <ArrowDown />
+                        </el-icon>
+                    </a>
+                    <ul class="ul">
+                        <li @click="goPage('home')"><g-icons iconName="icon-shouye"></g-icons>首页</li>
+                        <li @click="goPage('blog')"><g-icons iconName="icon-faxian"></g-icons>随记</li>
+                        <li @click="goPage('tools')"><g-icons iconName="icon-gongjuxiang"></g-icons>工具</li>
+                        <li @click="goPage('picture')"><g-icons iconName="icon-tupian"></g-icons>相册</li>
+                        <li @click="goPage('video')"><g-icons iconName="icon-shipin"></g-icons>视频</li>
+                        <li @click="goPage('about')"><g-icons iconName="icon-guanyu"></g-icons>关于</li>
+                        <li @click="goPage('bgImage')"><g-icons iconName="icon-bizhi"></g-icons>壁纸</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -62,8 +90,8 @@
 <script setup>
 import { computed, getCurrentInstance, ref } from 'vue'
 import Search from './Search.vue'
-import logoUrl from "@/assets/images/logo/logo.png"
-import logoWhiteUrl from "@/assets/images/logo/logo_white.png"
+import defaultLogo from "@/assets/images/logo/default_logo.png"
+import { goPage } from "@c/tools/common"
 
 const { proxy } = getCurrentInstance();
 
@@ -78,41 +106,30 @@ const props = defineProps({
     }
 })
 
-const currenLogoUrl = ref(logoWhiteUrl)
-
 let navStyleObj = computed(() => {
     if (props.isUpScroll && props.currentScrollTop > 0) {
-        currenLogoUrl.value = logoUrl
         return { '--bgColor': 'rgba(255, 255, 255, 0.75)', '--color': '#000' }
     } else {
-        currenLogoUrl.value = logoWhiteUrl
         return { '--bgColor': 'rgba(0, 0, 0, 0)', '--color': '#fff' }
     }
 })
 
-// 跳转
-const goPage = (url) => {
-    if (!url) return
-    proxy.$router.push(`/${url}`)
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    })
-}
 
 </script>
 
 <style lang="scss" scoped>
 .nav {
+    top: 0;
     height: 60px;
     background: var(--bgColor);
     transition: all 0.5s;
     z-index: 999;
-    .logo {
-        width: 180px;
-        height: 50px;
+    .logo-box {
+        width: 45px;
+        height: 45px;
+        background: #975a16;
         img {
-            width: 100%;
+            height: 100%;
             height: 100%;
         }
     }
@@ -189,6 +206,25 @@ const goPage = (url) => {
             100% {
                 opacity: 1;
             }
+        }
+    }
+}
+
+@media only screen and (max-width: 670px) {
+    .search {
+        width: 180px;
+    }
+    .menus {
+        .big-screen {
+            display: none;
+        }
+    }
+}
+
+@media only screen and (min-width: 670px) {
+    .menus {
+        .small-screen {
+            display: none;
         }
     }
 }

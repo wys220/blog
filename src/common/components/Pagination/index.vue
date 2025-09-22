@@ -1,13 +1,18 @@
 <template>
     <div class="pagination">
+
+        <span class="pagination-info"
+              v-if="showInfo">共{{ totalItems }}条
+        </span>
+
         <button @click="goToPage(1)"
                 :disabled="currentPage === 1"
-                class="pagination-button">
+                class="pagination-button hide-btn">
             首页
         </button>
         <button @click="goToPage(currentPage - 1)"
                 :disabled="currentPage === 1"
-                class="pagination-button">
+                class="pagination-button hide-btn">
             上一页
         </button>
 
@@ -28,19 +33,14 @@
 
         <button @click="goToPage(currentPage + 1)"
                 :disabled="currentPage === totalPages"
-                class="pagination-button">
+                class="pagination-button hide-btn">
             下一页
         </button>
         <button @click="goToPage(totalPages)"
                 :disabled="currentPage === totalPages"
-                class="pagination-button">
+                class="pagination-button hide-btn">
             尾页
         </button>
-
-        <span class="pagination-info"
-              v-if="showInfo">
-            第 {{ currentPage }} 页 / 共 {{ totalPages }} 页 ({{ totalItems }} 条记录)
-        </span>
     </div>
 </template>
   
@@ -69,7 +69,7 @@ const props = defineProps({
     // 显示的最大页码按钮数（不包括首尾和上一页下一页）
     maxVisibleButtons: {
         type: Number,
-        default: 5
+        default: 4
     },
     // 是否显示分页信息
     showInfo: {
@@ -139,10 +139,13 @@ const goToPage = (page) => {
     gap: 5px;
     margin-top: 20px;
     flex-wrap: wrap;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 .pagination-button {
-    padding: 5px 10px;
+    padding: 4px 8px;
+    font-size: 14px;
     border: 1px solid #ddd;
     background-color: #fff;
     cursor: pointer;
@@ -166,14 +169,19 @@ const goToPage = (page) => {
 }
 
 .pagination-ellipsis {
-    padding: 5px 10px;
     border: none;
     background: none;
     cursor: default;
+    color: var(--text-color);
 }
 
 .pagination-info {
-    margin-left: 15px;
-    color: var( --text-color);
+    color: var(--text-color);
+}
+/* 当屏幕宽度小于等于 600px 时应用的样式 */
+@media only screen and (max-width: 670px) {
+    .hide-btn {
+        display: none;
+    }
 }
 </style>

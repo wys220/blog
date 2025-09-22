@@ -40,7 +40,6 @@ import { marked } from 'marked'
 import DOMPurify from 'dompurify'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/vs2015.css';
-
 import { giteeApi } from '@c/api/giteeApi';
 
 
@@ -53,14 +52,6 @@ const props = defineProps({
     rawUrl: {
         type: String,
         required: true
-    },
-    showLineNumbers: {
-        type: Boolean,
-        default: true,
-    },
-    showCopyButton: {
-        type: Boolean,
-        default: true,
     },
 })
 
@@ -111,16 +102,7 @@ function copyToClipboard(text, button) {
     // 处理剪贴板API异常
     navigator.clipboard.writeText(text)
         .then(() => {
-            const originalHtml = button.innerHTML;
-            const language = button.dataset.language; // 从data属性获取语言，避免DOM查询
-            // 显示复制成功状态
-            button.innerHTML = `<i class="fas fa-check"></i>${language} 复制成功`;
-            button.classList.add('copied');
-            // 2秒后恢复原状态
-            setTimeout(() => {
-                button.innerHTML = originalHtml;
-                button.classList.remove('copied');
-            }, 2000);
+            proxy.$toast.success('复制成功')
         })
         .catch((err) => {
             console.error('复制失败：', err);
@@ -193,7 +175,6 @@ const fetchMarkdown = async () => {
     try {
         const res = await giteeApi.getMarkdownFile(props.rawUrl)
         content.value = res
-        // console.log(content.value, '获取 Markdown 内容');
     } catch (err) {
         error.value = err.message
         content.value = ''
@@ -384,6 +365,8 @@ code {
     padding-left: 1em;
     margin: 1em 0;
     color: #666;
+    background: #dddddd70;
+    padding: 5px 0;
 }
 
 .markdown-preview table {
@@ -394,12 +377,12 @@ code {
 
 .markdown-preview th,
 .markdown-preview td {
-    border: 1px solid #e1e1e1;
+    border: 1px solid #cccccc;
     padding: 5px 9px;
     text-align: left;
 }
 
 .markdown-preview th {
-    background-color: #e6e6e6;
+    background-color: #d6d6d6;
 }
 </style>

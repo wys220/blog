@@ -75,7 +75,6 @@ const copy = {
             textarea.select()
             const result = document.execCommand('Copy')
             if (result) {
-                // console.log('复制成功')
                 resetMessage({
                     type: 'success',
                     message: '复制成功',

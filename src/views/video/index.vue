@@ -58,7 +58,6 @@ let isNextPage = computed(() => {
 const getImageList = async () => {
     const res = await getHaoKanVideo(params);
     if (res.code == 200) {
-        // console.log(res, "res视频");
         videoList.value = [...videoList.value, ...res.result?.list];
         total.value = res.result?.total;
         setVideo();
