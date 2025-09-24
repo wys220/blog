@@ -240,7 +240,6 @@ onMounted(() => {
     overflow-y: auto;
     box-sizing: border-box;
     background: #f1f1f1;
-    padding: 10px;
 }
 
 /* 代码块样式 */

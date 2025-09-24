@@ -136,6 +136,7 @@ const goToPage = (page) => {
 .pagination {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 5px;
     margin-top: 20px;
     flex-wrap: wrap;

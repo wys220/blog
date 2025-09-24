@@ -7,7 +7,7 @@
         <Header :currentScrollTop="currentScrollTop"
                 :isUpScroll="isUpScroll">
         </Header>
-        <main class="main-area padding-tb40 padding-lr25"
+        <main class="main-area padding-tb40 padding-lr10"
               id="main-area"
               data-expanded="true">
             <div class="main-inner f1 pr ofa padding-b20"
