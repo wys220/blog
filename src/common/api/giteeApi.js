@@ -26,9 +26,9 @@ class GiteeApi {
 
             const response = await axios.get(url, { params });
 
-            if (response.content) {
+            if (response?.content || response?.data?.content) {
                 // 解码 base64 内容
-                const content = this.decodeBase64(response.content);
+                const content = this.decodeBase64(response?.content || response?.data?.content);
                 return {
                     content,
                     sha: response.sha,

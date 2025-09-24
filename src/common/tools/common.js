@@ -1,5 +1,7 @@
 import store from "@/store"
 import router from "@/router"
+import { getCurrentInstance } from "vue"
+import { toast } from '@c/tools/toast'
 
 
 /**
@@ -23,4 +25,19 @@ export const goPage = (url = 'home', isScrollTo = true) => {
  */
 export const jumpElement = (id = 'main-area') => {
     document.querySelector(`#${id}`).scrollIntoView({ behavior: "smooth" })
+}
+
+/**
+ * 复制逻辑抽离：单独函数，便于维护和复用
+ * @param {*} text //需要复制的文本
+ */
+export const copyText = (text) => {
+    // 处理剪贴板API异常
+    navigator.clipboard.writeText(text)
+        .then(() => {
+            toast.success('复制成功')
+        })
+        .catch((err) => {
+            console.error('复制失败：', err);
+        });
 }

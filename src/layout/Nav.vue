@@ -20,7 +20,7 @@
                 <div class="menus-item big-screen"
                      @click="goPage('blog')">
                     <a href="javascript:void(0);">
-                        <g-icons iconName="icon-faxian"
+                        <g-icons iconName="icon-jilu"
                                  size="20"></g-icons>随记
                     </a>
                 </div>
@@ -42,6 +42,7 @@
                     <ul class="ul">
                         <li @click="goPage('picture')"><g-icons iconName="icon-tupian"></g-icons>相册</li>
                         <li @click="goPage('video')"><g-icons iconName="icon-shipin"></g-icons>视频</li>
+                        <li @click="goPage('copyroom')"><g-icons iconName="icon-wenan"></g-icons>微句</li>
                     </ul>
                 </div>
                 <div class="menus-item big-screen">
@@ -69,10 +70,11 @@
                     </a>
                     <ul class="ul">
                         <li @click="goPage('home')"><g-icons iconName="icon-shouye"></g-icons>首页</li>
-                        <li @click="goPage('blog')"><g-icons iconName="icon-faxian"></g-icons>随记</li>
+                        <li @click="goPage('blog')"><g-icons iconName="icon-jilu"></g-icons>随记</li>
                         <li @click="goPage('tools')"><g-icons iconName="icon-gongjuxiang"></g-icons>工具</li>
                         <li @click="goPage('picture')"><g-icons iconName="icon-tupian"></g-icons>相册</li>
                         <li @click="goPage('video')"><g-icons iconName="icon-shipin"></g-icons>视频</li>
+                        <li @click="goPage('copyroom')"><g-icons iconName="icon-wenan"></g-icons>微句</li>
                         <li @click="goPage('about')"><g-icons iconName="icon-guanyu"></g-icons>关于</li>
                         <li @click="goPage('bgImage')"><g-icons iconName="icon-bizhi"></g-icons>壁纸</li>
                     </ul>
@@ -125,9 +127,8 @@ let navStyleObj = computed(() => {
     transition: all 0.5s;
     z-index: 999;
     .logo-box {
-        width: 45px;
-        height: 45px;
-        background: #975a16;
+        width: 40px;
+        height: 40px;
         img {
             height: 100%;
             height: 100%;
@@ -136,7 +137,7 @@ let navStyleObj = computed(() => {
     .menus {
         .menus-item {
             position: relative;
-            margin-right: 20px;
+            margin-right: 15px;
             font-size: 16px;
             a {
                 color: var(--color);
@@ -212,7 +213,7 @@ let navStyleObj = computed(() => {
 
 @media only screen and (max-width: 670px) {
     .search {
-        width: 180px;
+        width: 160px;
     }
     .menus {
         .big-screen {

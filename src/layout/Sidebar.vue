@@ -1,6 +1,7 @@
 <!-- 主区域右侧侧边栏 -->
 <template>
     <div class="siderbar">
+        <!-- 个人信息 -->
         <div class="siderbar-sty sider-item flex-col-c">
             <div class="avatar">
                 <img :src="userAvatar"
@@ -11,7 +12,7 @@
             <div class="motto t-center font16">理想的人生一定是靠拼来的<br />许愿到不了</div>
             <div class="tools margin-t20 flex-sa font16">
                 <div class="flex-col-c item">
-                    <div class="fontw"><g-icons iconName="icon-faxian"
+                    <div class="fontw"><g-icons iconName="icon-jilu"
                                  size="20"></g-icons>文章</div>
                     <div class="fontw cp"
                          @click="goPage('blog')">{{ blogListLen }}</div>
@@ -41,6 +42,23 @@
                 </div>
             </div>
         </div>
+        <!-- 每日一句 -->
+        <div class="siderbar-sty sider-item2 t-left font16">
+            <div class="title-bar padding-tb10 padding-l10 flex-sb">
+                <span>
+                    <g-icons iconName="icon-faxian"
+                             size="18"></g-icons>每日一句
+                </span>
+                <g-icons iconName="icon-shuaxin"
+                         className="cp"
+                         size="18"
+                         @click="refresh()"></g-icons>
+            </div>
+            <div class="flex-s flex-w padding10 cp"
+                 @click="copyText(meiriyijuText)">
+                {{ meiriyijuText }}
+            </div>
+        </div>
         <!-- 人生倒计时 -->
         <div class="siderbar-sty sider-item1 t-left font16">
             <div class="title-bar padding-tb10 padding-l10">
@@ -53,14 +71,14 @@
                     <el-progress :duration="15"
                                  :stroke-width="10"
                                  :percentage="Math.floor((nowHours/24)*100)"
-                                 color="#f56c6c" />
+                                 color="#216ac5" />
                 </div>
                 <div class="margin-b5">本周已经过去{{nowDayOfWeeks}}天</div>
                 <div class="margin-b5">
                     <el-progress :duration="15"
                                  :stroke-width="10"
                                  :percentage="Math.floor((nowDayOfWeeks/7)*100)"
-                                 color="#e6a23c" />
+                                 color="#3cac35" />
                 </div>
                 <div class="margin-b5">本月已经过去{{ nowDays }}天</div>
                 <div class="margin-b5">
@@ -73,7 +91,7 @@
                     <el-progress :duration="15"
                                  :stroke-width="10"
                                  :percentage="Math.floor((nowMonths/12)*100)"
-                                 color="#1989fa" />
+                                 color="#85bafc" />
                 </div>
             </div>
         </div>
@@ -83,10 +101,10 @@
                 <g-icons iconName="icon-biaoqian"
                          size="18"></g-icons>标签
             </div>
-            <div class="padding20 flex-s flex-w">
+            <div class="flex-s flex-w padding10">
                 <span v-for="(el,index) in tagList"
                       :key="index"
-                      class="tags">{{ el.name }}</span>
+                      class="tags">{{ el }}</span>
             </div>
         </div>
     </div>
@@ -96,7 +114,9 @@
 import { onMounted, ref, getCurrentInstance, computed } from "vue";
 import userAvatar from "@/assets/images/user_avatar.png"
 import store from "@/store"
-import { goPage } from "@c/tools/common"
+import { goPage, copyText } from "@c/tools/common"
+
+import { getMeiRiYiYanAPI } from "@/common/api/common";
 
 const { proxy } = getCurrentInstance();
 
@@ -151,7 +171,19 @@ const goGitee = () => {
 const goGithub = () => {
     window.open(userInfo.value?.github, '_blank')
 }
+
+const meiriyijuText = ref('')
+// 每日一句
+const getMeiRiYiYan = async () => {
+    const res = await getMeiRiYiYanAPI()
+    res && (meiriyijuText.value = res?.text || '')
+}
+// 刷新每日一句
+const refresh = () => {
+    getMeiRiYiYan()
+}
 onMounted(() => {
+    refresh()
     timeSlotChange()
 })
 </script>
@@ -170,16 +202,17 @@ onMounted(() => {
         border-radius: 8px;
         margin-bottom: 20px;
         .tags {
-            padding: 5px 10px;
+            padding: 3px 7px;
             background: $theme-color;
             border-radius: 8px;
             margin: 5px;
             color: #fff;
             text-align: center;
+            font-size: 14px;
         }
     }
     .title-bar {
-        border-bottom: 1px solid var(--text-color);
+        border-bottom: 1px solid var(--border-color);
         width: 100%;
         padding: 2px;
     }

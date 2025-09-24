@@ -9,10 +9,23 @@
         <div v-for="(item,Iindex) in tools?.data"
              :key="Iindex"
              class="margin-b20">
-            <div class="flex-s font20 fontw pr margin-b10">
-                <div class="type-name padding-l15">{{ item?.type }}</div>
+            <div class="type-box margin-b5 cp pr flex-sb"
+                 @click="openClose(Iindex)">
+                <div class="flex">
+                    <g-icons iconName="icon-faxian"
+                             className="padding-r5"
+                             size="32">
+                    </g-icons>{{ item.type }}
+                </div>
+                <div>
+                    <g-icons :iconName="item.isOpen ? 'icon-down' : 'icon-up'"
+                             className="padding-r5"
+                             size="28">
+                    </g-icons>
+                </div>
             </div>
-            <div class="box">
+            <div class="box"
+                 v-if="!item.isOpen">
                 <div v-for="(i, index) in item?.list"
                      :key="index"
                      @click="selectTool(i)"
@@ -36,7 +49,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, onMounted } from "vue";
 import router from "@/router";
 import store from "@/store"
 
@@ -59,21 +72,22 @@ const selectTool = (item) => {
     if (!item?.url) return
     window.open(item?.url, '_blank')
 };
-
+// 展开收起
+const openClose = (index) => {
+    tools.value.data[index].isOpen = !tools.value.data[index]?.isOpen
+}
+onMounted(() => {
+    tools.value?.data?.forEach(element => {
+        element.isOpen = false
+    });
+})
 </script>
 
 <style lang="scss" scoped>
 .tools-type {
-    .type-name {
-        &::before {
-            content: "";
-            position: absolute;
-            left: 3px;
-            top: 1px;
-            width: 6px;
-            height: 90%;
-            border-radius: 4px;
-            background: #1073ec;
+    .type-box {
+        &:hover {
+            background: var(--bg-color);
         }
     }
     .box {

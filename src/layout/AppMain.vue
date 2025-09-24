@@ -149,8 +149,12 @@ onBeforeMount(() => {
         .main-area {
             flex-direction: column;
 
-            .box-arrow {
+            .box-arrow,
+            .full-screen {
                 display: none;
+            }
+            .main-inner {
+                padding: 40px 10px 10px 10px !important;
             }
         }
         .main-area[data-expanded="true"] .sidebar-box {
@@ -212,12 +216,11 @@ onBeforeMount(() => {
     .footer {
         width: 100%;
         height: 50px;
-        line-height: 28px;
         background: transparent;
         color: #fff;
         margin: 0 auto;
         border-radius: 10px;
-        padding: 20px;
+        margin-bottom: 10px;
     }
 }
 </style>

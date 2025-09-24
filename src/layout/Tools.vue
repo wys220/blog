@@ -59,7 +59,7 @@ const refreshBg = () => {
 
 <style lang="scss" scoped>
 .tools {
-    bottom: 30px;
+    bottom: 50px;
     right: 10px;
     background: transparent;
     color: #fff;
@@ -67,13 +67,20 @@ const refreshBg = () => {
     .item {
         display: flex;
         margin: 10px;
-        padding: 5px;
+        padding: 3px;
         background: var(--bg-color);
         border-radius: 4px;
         cursor: pointer;
         &:hover {
             background: #bec5ff;
         }
+    }
+}
+/* 当屏幕宽度小于等于 600px 时应用的样式 */
+@media only screen and (max-width: 670px) {
+    .tools {
+        bottom: 200px;
+        right: 0px;
     }
 }
 </style>

@@ -9,24 +9,7 @@ const state = {
     toggleBgTime: 5, // toggleBgTime 单位：分钟
     userInfo: null, //用户信息
     //tags标签
-    tags: [
-        {
-            id: '1',
-            name: 'vue3'
-        },
-        {
-            id: '2',
-            name: 'vuex'
-        },
-        {
-            id: '3',
-            name: 'javascript'
-        },
-        {
-            id: '4',
-            name: 'Element-Plus'
-        },
-    ]
+    tags: ['vue3', 'javascript', 'vuex', 'Element-Plus', '文章', '工具', '相册', '视频', '壁纸']
 }
 const mutations = {
     // 设置当前背景图索引

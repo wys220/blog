@@ -2,7 +2,7 @@
 import { giteeApi } from '@c/api/giteeApi';
 
 const state = {
-    allTools: null, //全部工具列表
+    allTools: null, //全部工具列表，包含分类
     allBlogList: null, //全部博客列表，包含分类
     blogList: null, //全部博客列表，（一维数组）
 }
